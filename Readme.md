@@ -25,13 +25,13 @@ Avenir
 
 ## Versions
 
-**Dernière version stable :** Avenir*
+**Dernière version stable :** Avenir
 
 
 
 ## Auteurs
 
-* **CestSiloinLesEtoiles** - *Développeur principal* - [CestSiloinLesEtoiles](https://github.com/cestsiloinlesetoiles)
+* **Kaizen** - *Développeur principal* - [CestSiloinLesEtoiles](https://github.com/cestsiloinlesetoiles)
 
 
 
