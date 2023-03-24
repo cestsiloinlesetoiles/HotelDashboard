@@ -9,7 +9,9 @@ public class Options {
     public LuxaryRoom luxaryRoom;
     public PresidentialSuite presidentialSuite;
     
-    public Options() {
+    public Options(String name, int price) {
+    	this.price = price;
+    	this.name = name;
     }
 
  

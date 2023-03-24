@@ -21,7 +21,19 @@ public class Hotel {
         this.liststay = new Vector<GuestStay>();
 
     }
-
+    
+    //Ajout de Chambre	
+    public void addRoom(int floor, int num, String typeRoom) {  	
+    }
+    
+    //Ajout de Reservation
+    public void  MkRes(Date date_start, Date date_end, Customer customer) {
+    }
+    
+    //Annuler de reservation 
+    public void  RmRes(Date date_start, Date date_end, Customer customer) {
+    }
+  
 
 
 }
