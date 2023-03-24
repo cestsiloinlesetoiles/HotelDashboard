@@ -15,27 +15,27 @@ public class Clients {
     /**
      * 
      */
-    public String Nom;
+    public String name;
 
     /**
      * 
      */
-    public String Prénom;
+    public String firstname;
 
     /**
      * 
      */
-    public String Email;
+    public String email;
 
     /**
      * 
      */
-    public String Tel;
+    public String tel;
 
     /**
      * 
      */
-    public Vector<Reservation> listreserv;
+    public Set<Reservation> listrsv;
 
     /**
      * 

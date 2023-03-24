@@ -15,22 +15,22 @@ public class Reservation {
     /**
      * 
      */
-    public Date date_debut;
+    public Date date_start;
 
     /**
      * 
      */
-    public Date date_fin;
+    public Date date_end;
 
     /**
      * 
      */
-    public Clients client;
+    public Clients customer;
 
     /**
      * 
      */
-    public Sejour sejour;
+    public GuestStay stay;
 
     /**
      * 
@@ -40,6 +40,6 @@ public class Reservation {
     /**
      * 
      */
-    public Vector<Chambre> listchambre;
+    public Set<Room> listrooms;
 
 }

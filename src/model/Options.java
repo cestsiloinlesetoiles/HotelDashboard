@@ -15,21 +15,21 @@ public class Options {
     /**
      * 
      */
-    public String Options;
+    public String name;
 
     /**
      * 
      */
-    public int Tarif;
+    public int price;
 
     /**
      * 
      */
-    public SuiteNormale suitenormale;
+    public LuxaryRoom luxaryRoom;
 
     /**
      * 
      */
-    public Suitepresidentielle suitepresidentielle;
+    public PresidentialSuite presidentialSuite;
 
 }

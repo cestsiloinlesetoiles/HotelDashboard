@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * 
  */
-public class Double extends Chambre {
+public class Double extends Room {
 
     /**
      * Default constructor

@@ -4,18 +4,18 @@ import java.util.*;
 /**
  * 
  */
-public class Sejour {
+public class GuestStay {
 
     /**
      * Default constructor
      */
-    public Sejour() {
+    public GuestStay() {
     }
 
     /**
      * 
      */
-    public int Cout_total;
+    public int totalCost;
 
     /**
      * 
@@ -30,6 +30,6 @@ public class Sejour {
     /**
      * 
      */
-    public Vector<Conso> listconso;
+    public Set<Consumption> listconspt;
 
 }

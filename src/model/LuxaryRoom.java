@@ -4,17 +4,17 @@ import java.util.*;
 /**
  * 
  */
-public class SuiteNormale extends Chambre {
+public class LuxaryRoom extends Room {
 
     /**
      * Default constructor
      */
-    public SuiteNormale() {
+    public LuxaryRoom() {
     }
 
     /**
      * 
      */
-    public Vector<Options> listoptions;
+    public Set<Options> listoptions;
 
 }

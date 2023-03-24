@@ -4,27 +4,27 @@ import java.util.*;
 /**
  * 
  */
-public class Produit {
+public class Consumption {
 
     /**
      * Default constructor
      */
-    public Produit() {
+    public Consumption() {
     }
 
     /**
      * 
      */
-    public String Produit;
+    public int qt;
 
     /**
      * 
      */
-    public int Prix;
+    public product product;
 
     /**
      * 
      */
-    public Vector<Conso> listconso;
+    public GuestStay stay;
 
 }

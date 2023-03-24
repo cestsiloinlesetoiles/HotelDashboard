@@ -4,35 +4,33 @@ import java.util.*;
 /**
  * 
  */
-public class Chambre {
+public class Room {
 
     /**
      * Default constructor
      */
-    public Chambre() {
-    	
-    	
+    public Room() {
     }
 
     /**
      * 
      */
-    public int Num;
+    public int num;
 
     /**
      * 
      */
-    public int Etage;
+    public int floor;
 
     /**
      * 
      */
-    public int Tarif;
+    public int price;
 
     /**
      * 
      */
-    public int NbrDeLit;
+    public int beds;
 
     /**
      * 

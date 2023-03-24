@@ -15,31 +15,31 @@ public class Hotel {
     /**
      * 
      */
-    public String Nom;
+    public String name;
 
     /**
      * 
      */
-    public String Adresse;
+    public String adress;
 
     /**
      * 
      */
-    public Vector<Reservation> Listreserv;
+    public Set<Reservation> Listrsv;
 
     /**
      * 
      */
-    public Vector<Chambre> Listchambre;
+    public Set<Room> listrooms;
 
     /**
      * 
      */
-    public Vector<Clients> listCLient;
+    public Set<Clients> listcustomer;
 
     /**
      * 
      */
-    public Vector<Sejour> listsejour;
+    public Set<GuestStay> liststay;
 
 }
