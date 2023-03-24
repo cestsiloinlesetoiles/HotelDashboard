@@ -10,7 +10,7 @@ public class Consumption {
     public GuestStay stay;
     
     //Default constructor
-    public Consumption(product product, GuestStay guestStay) {
+    public Consumption(product product, int qt ,GuestStay guestStay) {
     	this.product = product;
         this.stay = guestStay;
     }

@@ -6,6 +6,8 @@ public class Options {
 	 
     public String name;
     public int price;
+    
+    // Peut être enlever
     public LuxaryRoom luxaryRoom;
     public PresidentialSuite presidentialSuite;
     
