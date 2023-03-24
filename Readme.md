@@ -2,7 +2,7 @@
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)  [![forthebadge](http://forthebadge.com/images/badges/made-with-java.svg)](http://forthebadge.com)
 
-Un petit logiciel de réservation pour un hôtel qui permet aux clients de réserver différents types de chambres, de gérer leurs réservations, de séjours et de facturation.
+Un petit logiciel de réservation pour un hôtel qui permet la gestion de réservations avec différents types de chambres, et la gestion de séjours et de facturation.
 
 ## Fonctionnalités (Avenir)
 
