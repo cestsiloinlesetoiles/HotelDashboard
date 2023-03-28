@@ -1,30 +1,52 @@
 package model;
 import java.util.*;
-
+import java.time.*;
 
 public class Reservation {
 
-    public Date date_start;
-    public Date date_end;
-    public Customer customer;
-    public GuestStay stay;
-    public Hotel hotel;
-    public Room room;
+	private LocalDate date_start;
+    private LocalDate date_end;
+    private Customer customer;
+    private GuestStay stay;
+    private Hotel hotel;
+    private Room room;
 	
-    // manque des truc ici verif sejour ou pas comment confirmer?;
-    // CORRIGER CETTE PARTIE CONSTRUCTOR METTRE LES CONSTRUCTEUR DE BASE
-    /*public Reservation(Date date_start, Date date_end, Customer customer, Hotel hotel) {
+    
+    
+    public Reservation(LocalDate date_start, LocalDate date_end) {
+    	LocalDate currentDate = LocalDate.now(); // Récupération de la date actuelle
+    	
+    	
+    	// [CHANGEMENT] DATE TO LOCALDATE COMMING after to IsBefore
+    	if(date_start.isAfter(date_end)) {
+    	 // ERREUR
+    	};
+    	
+    	if(date_start.isBefore(currentDate)) {
+       	 // ERREUR
+       	};
+    	
     	this.date_start = date_start;
         this.date_end = date_end;
-        this.customer= customer;
-        //this.listrooms = hotel.listrooms;
-        //this.listrooms = new Vector<Room>;
-    }*/
+    }
+    
+    // CAS OU LA CHAMBRE NEST PAS ATTRIBUABLE QUE FAIRE ?
+    
+    public void setRoom(Room room){
+    	// a Mettre dans le code principale if(room.CheckisFree(this.date_start,this.date_end)) {
+    	 this.room = room;
+    	}	
+   
+    
+    public void setCustomer(Customer customer){
+    	this.customer= customer;
+    }
+    
+    public void setHotel(Hotel hotel) {
+    	this.hotel=hotel;
+    }
     
     
-    
-    
-    // Methode
     public int getStayDuration() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -34,14 +56,16 @@ public class Reservation {
 		return room;
 	}
 
-	public Date getDateStart() {
+	public LocalDate getDateStart() {
 		return date_start;
 	}
 
-	public Date getDateEnd() {
+	public LocalDate getDateEnd() {
 		return date_end;
 	}
     
+	
+	
 	
     
 }

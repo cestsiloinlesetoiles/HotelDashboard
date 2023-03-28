@@ -7,9 +7,9 @@ public class Options {
     private String name;
     private int price;
     
-    // Peut être enlever
+    /*
     public LuxaryRoom luxaryRoom;
-    public PresidentialSuite presidentialSuite;
+    public PresidentialSuite presidentialSuite;*/
     
     public Options(String name, int price) {
     	this.price = price;
@@ -18,6 +18,14 @@ public class Options {
 
 	public int getCost() {
 		return price;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
  

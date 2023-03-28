@@ -1,6 +1,6 @@
 package model;
 import java.util.*;
-
+import java.time.*;
 
 public class Hotel {
     
@@ -12,7 +12,7 @@ public class Hotel {
     public Vector<Room> listrooms = new Vector<Room>();
     public Vector<Customer> listcustomer = new Vector<Customer>();
     public Vector<GuestStay> liststay = new Vector<GuestStay>();
-    
+    public Vector<Options> listoptions = new Vector<Options>(); 
     //Default Constructor
     public Hotel(String name, String address) {
     	this.name = name;
@@ -20,6 +20,8 @@ public class Hotel {
     }
     
     
+    // Rajouter la suite des options dans l'options que presente l'hotel 
+    // Quelle 
     
     // Verifie l'existance d'une chambre id par floor et num 
     public boolean isRoomExist(int floor, int num) {
@@ -70,11 +72,7 @@ public class Hotel {
     	}
     }
     
-    // Adding multiple 
-    
-    public void addByfloor(int floor, int num, Roomtype  typeRoom) {
-    	
-    }
+   
    
     // Modification chambre 
     public void modRomm(int floor, int num) {
@@ -85,4 +83,6 @@ public class Hotel {
     public void  RmRes(Date date_start, Date date_end, Customer customer) {
     }
     
+    /* checkin ( client ) {	
+	} */
 }

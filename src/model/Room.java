@@ -1,6 +1,6 @@
 package model;
 import java.util.*;
-
+import java.time.*;
 
 public class Room {
 
@@ -28,7 +28,7 @@ public class Room {
         return floor;
     }
     
-    public boolean CheckisFree(Date start, Date end){
+    public boolean CheckisFree(LocalDate start, LocalDate end){
     	// Parcourir toutes les réservations de la chambre
     	
     	for (Reservation res : reservation) {
@@ -37,12 +37,12 @@ public class Room {
     		// Cas même date
     		if(res.getDateStart().equals(start) && res.getDateEnd().equals(end)) return false;
     		// Chevauchement sur la gauche periode
-    		else if(res.getDateStart().after(end)&& res.getDateEnd().before(end)) return false;
+    		else if(res.getDateStart().isAfter(end)&& res.getDateEnd().isBefore(end)) return false;
     		// Chevauchement sur la droite periode 
-    		else if(res.getDateStart().after(start)&& res.getDateEnd().before(start)) return false;
-    		
+    		else if(res.getDateStart().isAfter(start)&& res.getDateEnd().isBefore(start)) return false;
+    		// LA DATE DE FIN DOIT ËTRE PL
     	}
-    	return false;
+    	return true;
     }
 
 
