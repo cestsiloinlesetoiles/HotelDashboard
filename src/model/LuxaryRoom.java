@@ -17,9 +17,18 @@ public class LuxaryRoom extends Room {
         this.listoptions = new Vector<>();
     }
     
-    //Setup mes attribut de classes
+
+    @Override
     public int getCost() {
-        return spec_price;
+
+    	int OptionsCost = 0;
+    	// type element : collection
+    	
+    	for ( Options opts  : listoptions) {
+    		OptionsCost+= opts.getCost();
+    	} 
+        int totalCostRoom = spec_price +  OptionsCost;
+    	return totalCostRoom ;
     }
 
   

@@ -15,6 +15,7 @@ public class Double extends Room {
     }
     
     //Setup mes attribut de classes
+    @Override
     public int getCost() {
         return spec_price;
     }

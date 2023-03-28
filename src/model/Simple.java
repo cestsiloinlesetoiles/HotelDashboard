@@ -4,7 +4,7 @@ import java.util.*;
 public class Simple extends Room {
 	private static int spec_price; 
     private static int spec_bed;
-    
+    //"seteur et getter de class"
     
     public Simple(int num, int floor) {
      super(num,floor);
@@ -13,6 +13,7 @@ public class Simple extends Room {
     }
 
     //Setup mes attribut de classes
+    @Override
     public int getCost() {
         return spec_price;
     }

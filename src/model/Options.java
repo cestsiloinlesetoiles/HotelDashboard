@@ -4,8 +4,8 @@ import java.util.*;
 
 public class Options {
 	 
-    public String name;
-    public int price;
+    private String name;
+    private int price;
     
     // Peut être enlever
     public LuxaryRoom luxaryRoom;
@@ -15,6 +15,10 @@ public class Options {
     	this.price = price;
     	this.name = name;
     }
+
+	public int getCost() {
+		return price;
+	}
 
  
 

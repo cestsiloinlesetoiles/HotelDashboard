@@ -17,8 +17,18 @@ public class PresidentialSuite extends Room {
     }
     
     //Setup mes attribut de classes
+    
+    
+    @Override
     public int getCost() {
-        return spec_price;
+    
+    	int OptionsCost = 0;
+
+    	for ( Options opts  : listoptions) {
+    		OptionsCost+= opts.getCost();
+    	} 
+        int totalCostRoom = spec_price +  OptionsCost;
+    	return totalCostRoom ;
     }
 
   
