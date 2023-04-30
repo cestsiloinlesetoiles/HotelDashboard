@@ -1,4 +1,4 @@
-package model;
+package model.HotelManager;
 import java.util.*;
 
 
@@ -18,7 +18,7 @@ public class Consumption {
     
 // SET LE SEJOUR 
     public void setCurrentStay ( GuestStay stay) {
-    	this.stay = stay;
+    	this.setStay(stay);
     }
 // SET LE PROD   
     
@@ -27,15 +27,16 @@ public class Consumption {
     }
     
     // retourne le prix
-	public int getCost() {
-		
-		// OptionsCost
-    	
-		int optionsCost = 0;
-    	
-    	// type element : collection
-		
-		return product.price*qt;
+	public int getCost() {	
+		return product.getPrice()*qt;
+	}
+
+	public GuestStay getStay() {
+		return stay;
+	}
+
+	public void setStay(GuestStay stay) {
+		this.stay = stay;
 	}
     
     

@@ -1,16 +1,13 @@
-package model;
+package model.HotelManager;
 import java.util.*;
 
 
 public class Options {
 	 
-    private String name;
-    private int price;
+    public String name;
+    public int price;
     
-    /*
-    public LuxaryRoom luxaryRoom;
-    public PresidentialSuite presidentialSuite;*/
-    
+   
     public Options(String name, int price) {
     	this.price = price;
     	this.name = name;

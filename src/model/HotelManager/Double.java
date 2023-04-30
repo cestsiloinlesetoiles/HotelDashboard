@@ -1,4 +1,4 @@
-package model;
+package model.HotelManager;
 import java.util.*;
 
 
@@ -10,12 +10,12 @@ public class Double extends Room {
 	///Default constructor
     public Double(int num, int floor) {
     	 super(num,floor);
-         this.price = spec_price;
-         this.beds = spec_bed;
+         this.setPrice(spec_price);
+         this.setBeds(spec_bed);
     }
     
     //Setup mes attribut de classes
-    @Override
+   
     public int getCost() {
         return spec_price;
     }

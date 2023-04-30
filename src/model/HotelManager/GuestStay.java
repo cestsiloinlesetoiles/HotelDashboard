@@ -1,4 +1,4 @@
-package model;
+package model.HotelManager;
 import java.util.*;
 
 //sejour = guestStay à voir
@@ -12,11 +12,6 @@ public class GuestStay {
     // Total init a zero => 
     public GuestStay() {
     }
-    
-    /* Default constructor 2 
-    public GuestStay(Reservation reservation,Hotel hotel) {
-    	this.reservation = reservation;
-    }*/
     
     
     public void setHotel(Hotel hotel) {

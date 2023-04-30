@@ -1,15 +1,15 @@
-package model;
+package model.HotelManager;
 import java.util.*;
 import java.time.*;
 
 public class Reservation {
 
-	private LocalDate date_start;
-    private LocalDate date_end;
-    private Customer customer;
-    private GuestStay stay;
-    private Hotel hotel;
-    private Room room;
+	public LocalDate date_start;
+    public LocalDate date_end;
+    public Customer customer;
+    public GuestStay stay;
+    public Hotel hotel;
+    public Room room;
 	
     
     
@@ -62,6 +62,14 @@ public class Reservation {
 
 	public LocalDate getDateEnd() {
 		return date_end;
+	}
+
+	public GuestStay getStay() {
+		return stay;
+	}
+
+	public void setStay(GuestStay stay) {
+		this.stay = stay;
 	}
     
 	

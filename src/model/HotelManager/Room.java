@@ -1,4 +1,4 @@
-package model;
+package model.HotelManager;
 import java.util.*;
 import java.time.*;
 
@@ -30,18 +30,11 @@ public class Room {
     
     public boolean CheckisFree(LocalDate start, LocalDate end){
     	// Parcourir toutes les réservations de la chambre
-    	
+    	// Vérifier simplement si end n'est pas inférieur à start et si end n'est pas supérieur à start
     	for (Reservation res : reservation) {
     		  // Vérifier si la réservation chevauche
-    		
-    		// Cas même date
-    		if(res.getDateStart().equals(start) && res.getDateEnd().equals(end)) return false;
-    		// Chevauchement sur la gauche periode
-    		else if(res.getDateStart().isAfter(end)&& res.getDateEnd().isBefore(end)) return false;
-    		// Chevauchement sur la droite periode 
-    		else if(res.getDateStart().isAfter(start)&& res.getDateEnd().isBefore(start)) return false;
-    		// LA DATE DE FIN DOIT ËTRE PL
-    	}
+    		if (!end.isBefore(res.getDateStart()) || !start.isAfter(res.getDateEnd())) return false;
+    		}
     	return true;
     }
 
@@ -50,6 +43,30 @@ public class Room {
 	public int getCost() {
 		// 0 zero code d'erreur sur room car les vrai définie par héritage
 		return 0;
+	}
+
+
+
+	public int getPrice() {
+		return price;
+	}
+
+
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+
+
+	public int getBeds() {
+		return beds;
+	}
+
+
+
+	public void setBeds(int beds) {
+		this.beds = beds;
 	}
 
 }
