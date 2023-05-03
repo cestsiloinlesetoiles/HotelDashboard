@@ -1,4 +1,4 @@
-package model.HotelManager;
+package model;
 import java.util.*;
 
 
@@ -23,6 +23,10 @@ public class Options {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setCost(int price) {
+		this.price = price;
 	}
 
  

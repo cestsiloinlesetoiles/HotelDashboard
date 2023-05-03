@@ -17,14 +17,14 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 
 import controller.PageController;
-import model.HotelManager.Hotel;
+import controller.ShowDataMetaController;
+import model.Hotel;
 
 public class App extends JFrame {
 
 
 	JPanel Menu;
-
-
+   
 	JPanel MultiScreen;
 	OverviewP Overview;
 	RoomP RoomManager;
@@ -58,6 +58,9 @@ public class App extends JFrame {
 		MultiScreen.add(StayManager,"Stay Manager");
 		
 		
+		ShowDataMetaController sd = new ShowDataMetaController(hotel);
+		JButton Demo = new JButton("Data Console");
+		Demo.addActionListener(sd);
 		
 		JButton btnOverview = new JButton("Overview");
 		JButton btnRoomManager = new JButton("Room Manager");
@@ -105,10 +108,11 @@ public class App extends JFrame {
 		Menu.add(btnReservationManager);
 		Menu.add(Box.createRigidArea(new Dimension(0, 25)));
 		Menu.add(btnStayManager);
-
+		Menu.add(Box.createRigidArea(new Dimension(0, 25)));
+		Menu.add(Demo);
 		Menu.setBackground(Color.BLACK);
 
-
+        
 
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(MultiScreen, BorderLayout.CENTER);

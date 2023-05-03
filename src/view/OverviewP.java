@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import javax.swing.*;
 
-import model.HotelManager.Hotel;
+import model.Hotel;
 
 public class OverviewP extends JPanel {
  public OverviewP(Hotel hotel){

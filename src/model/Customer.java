@@ -1,22 +1,24 @@
-package model.HotelManager;
+package model;
 import java.util.*;
 
 public class Customer {
-
+	
 	public String LastName;
 	public String Firstname;
 	public String Email;
 	public String Phone;
 	public Hotel Hotel;
+	private static int IdCount = 1;
+	private int CurrentId; // l'ID de ce client
 	private Vector <Reservation> listrsv_current_customer = new Vector<Reservation>() ;
 
 
 	public Customer(String name, String firstname, String email, String phone) {
-		this.setName(name);
+		this.setLastName(name);
 		this.setFirstname(firstname);
 		this.setEmail(email);
-		this.setTel(phone);
-
+		this.setPhone(phone);
+		CurrentId = IdCount;
 	}
 
 	public void setHotel(Hotel hotel) {
@@ -27,7 +29,7 @@ public class Customer {
 		return LastName;
 	}
 
-	public void setName(String name) {
+	public void setLastName(String name) {
 		this.LastName = name;
 	}
 
@@ -51,7 +53,7 @@ public class Customer {
 		return Phone;
 	}
 
-	public void setTel(String tel) {
+	public void setPhone(String tel) {
 		this.Phone = tel;
 	}
 

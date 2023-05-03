@@ -15,20 +15,25 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import controller.AddingCustomerController;
-import controller.EmailFieldController;
-import controller.NameFieldController;
-import controller.PhoneFieldController;
-import controller.SearchSortController;
-import model.HotelManager.Customer;
-import model.HotelManager.Hotel;
+import controller.Customer.AddingCustomerController;
+import controller.Customer.SearchSortController;
+import controller.Customer.TableSelectionController;
+import controller.Customer.fieldcheck.EmailFieldController;
+import controller.Customer.fieldcheck.NameFieldController;
+import controller.Customer.fieldcheck.PhoneFieldController;
+import model.Customer;
+import model.Hotel;
+import view.Custompanel.ActionMenuP;
 
 public class CustomerP extends JPanel {
-    JTable listCustomer;
+    JPanel mainPanel;
+	JTable listCustomer;
     JPanel pnlTable = new JPanel();
     JPanel pnlAddingCustomer = new JPanel();
     JPanel pnlTopBoard = new JPanel();
     DefaultTableModel TableModelCustomer;
+	
+    
     public CustomerP(Hotel hotel) {
     	
     	
@@ -90,7 +95,7 @@ public class CustomerP extends JPanel {
         JLabel lblEmailError = new JLabel("");
         JLabel lblPhoneError = new JLabel("");
         
-    
+        
         gbcCustomer.gridy++;
         pnlAddingCustomer.add(lblLastNameError, gbcCustomer);
         gbcCustomer.gridy++;
@@ -119,12 +124,30 @@ public class CustomerP extends JPanel {
         
         pnlTable.setLayout(new BorderLayout());
         TableModelCustomer = TableModel(hotel);
-        AddingCustomerController acc = new AddingCustomerController(txtLastName, txtFirstName, txtEmail, txtPhone, hotel,TableModelCustomer);
+        AddingCustomerController acc = new AddingCustomerController(txtLastName, txtFirstName, txtEmail, txtPhone, hotel,TableModelCustomer,this);
         JTable TableCustomer = new JTable(TableModelCustomer);
         JScrollPane scrollPane = new JScrollPane(TableCustomer);
         TableCustomer.setAutoCreateRowSorter(true);  
         pnlTable.add(scrollPane, BorderLayout.CENTER);
+        
+        
         btnAddingCustomer.addActionListener(acc);
+        
+        ActionMenuP actbtn = new ActionMenuP(TableCustomer,TableModelCustomer,hotel,this);
+        pnlTable.add(actbtn,BorderLayout.EAST);
+        
+        TableCustomer.getSelectionModel().addListSelectionListener(new TableSelectionController(TableCustomer, actbtn));
+        
+        
+        
+        
+       
+        
+        
+        
+        
+        
+       
         
         JLabel srch = new JLabel("Recherche");
         JTextField searchField = new JTextField(15);
@@ -136,8 +159,7 @@ public class CustomerP extends JPanel {
         SearchSortController srchC = new SearchSortController(TableCustomer, TableModelCustomer,searchField);
         searchField.getDocument().addDocumentListener(srchC);;
         
-        
-        
+       
         
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -173,9 +195,12 @@ public class CustomerP extends JPanel {
     
     
     public DefaultTableModel TableModel(Hotel hotel) {
+    	
+    	
+    	
     	String[] columnNames = {"Nom", "Prénom", "Email", "Téléphone"};
     	
-    	Object[][] data = new Object[hotel.customers.size()][4];
+    	Object[][] data = new Object[hotel.customers.size()][5];
     	
     	
     	for (int i = 0; i < hotel.customers.size(); i++) {

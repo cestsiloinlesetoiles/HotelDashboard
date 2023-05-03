@@ -1,4 +1,4 @@
-package controller;
+package controller.Customer.fieldcheck;
 
 import java.awt.Color;
 import java.awt.event.FocusEvent;
@@ -24,7 +24,7 @@ public class PhoneFieldController implements FocusListener {
     @Override
     public void focusLost(FocusEvent e) {
         JTextField txtphone = (JTextField) e.getSource();
-        if (txtphone.getText().matches(Regex)) {
+        if (txtphone.getText().matches(Regex)||txtphone.getText().isEmpty()) {
             txtphone.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             PhoneError.setText("");
         } else {

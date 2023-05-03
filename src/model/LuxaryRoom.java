@@ -1,15 +1,15 @@
-package model.HotelManager;
+package model;
 import java.util.*;
 
 
-public class PresidentialSuite extends Room {
+public class LuxaryRoom extends Room {
 	
 	private static int spec_price;
 	private static int spec_bed;
 	
-    public Vector<Options> listoptions;
-
-    public PresidentialSuite(int num, int floor) {
+	public Vector<Options> listoptions;
+    
+    public LuxaryRoom(int num, int floor) {
     	super(num,floor);
     	this.setPrice(spec_price);
         this.setBeds(spec_bed);
@@ -17,14 +17,13 @@ public class PresidentialSuite extends Room {
         this.listoptions = new Vector<>();
     }
     
-    //Setup mes attribut de classes
-    
-    
+
     @Override
     public int getCost() {
-    
-    	int OptionsCost = 0;
 
+    	int OptionsCost = 0;
+    	// type element : collection
+    	
     	for ( Options opts  : listoptions) {
     		OptionsCost+= opts.getCost();
     	} 
@@ -41,11 +40,12 @@ public class PresidentialSuite extends Room {
     //Setup mes attribut de classes
     
     public void setNbrOfbeds(int nbeds) {
-    	PresidentialSuite.spec_bed = nbeds;
+    	LuxaryRoom.spec_bed = nbeds;
     }
     
     public void setCostroom(int nprice) {
-    	PresidentialSuite.spec_price = nprice;
+    	LuxaryRoom.spec_price = nprice;
     }
     
+
 }

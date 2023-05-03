@@ -3,7 +3,7 @@ import java.awt.Color;
 
 import javax.swing.*;
 
-import model.HotelManager.Hotel;
+import model.Hotel;
 
 public class ReservationP extends JPanel {
 	public ReservationP(Hotel hotel) {

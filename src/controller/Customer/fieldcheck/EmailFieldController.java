@@ -1,4 +1,4 @@
-package controller;
+package controller.Customer.fieldcheck;
 
 import java.awt.Color;
 import java.awt.TextField;
@@ -23,7 +23,7 @@ public class EmailFieldController implements FocusListener {
     @Override
     public void focusLost(FocusEvent e) {
         JTextField txtEmail = (JTextField) e.getSource();
-        if (txtEmail.getText().matches(Regex)) {
+        if (txtEmail.getText().matches(Regex)||txtEmail.getText().isEmpty()) {
         	 txtEmail.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         	 EmailError.setText("");
         } else {

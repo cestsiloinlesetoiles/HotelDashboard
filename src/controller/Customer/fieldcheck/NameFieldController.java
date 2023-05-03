@@ -1,4 +1,4 @@
-package controller;
+package controller.Customer.fieldcheck;
 
 import java.awt.Color;
 import java.awt.event.FocusEvent;
@@ -26,7 +26,7 @@ public class NameFieldController implements FocusListener {
     @Override
     public void focusLost(FocusEvent e) {
         JTextField txtName = (JTextField) e.getSource();
-        if (txtName.getText().matches(Regex)) {
+        if (txtName.getText().matches(Regex)||txtName.getText().isEmpty()) {
             txtName.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             NameError.setText("");
         } else {

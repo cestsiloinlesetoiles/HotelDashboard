@@ -1,4 +1,4 @@
-package model.HotelManager;
+package model;
 import java.util.*;
 
 public class product {

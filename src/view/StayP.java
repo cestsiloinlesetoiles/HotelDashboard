@@ -3,7 +3,7 @@ import java.awt.Color;
 
 import javax.swing.*;
 
-import model.HotelManager.Hotel;
+import model.Hotel;
 public class StayP extends JPanel{
 	public StayP(Hotel hotel) {
 		 this.setBackground(Color.GREEN);

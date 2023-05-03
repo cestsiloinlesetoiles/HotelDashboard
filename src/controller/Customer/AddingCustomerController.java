@@ -1,12 +1,14 @@
-package controller;
+package controller.Customer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import model.HotelManager.Customer;
-import model.HotelManager.Hotel;
+import model.Customer;
+import model.Hotel;
+import view.CustomerP;
 
 
 //Name regex (FirstName and LastName) source:
@@ -26,9 +28,10 @@ public class AddingCustomerController implements ActionListener {
 	JTextField txtT;
 	Hotel hotel;
 	DefaultTableModel TableModel;
+	CustomerP mainPanel;
 
 	public AddingCustomerController(JTextField txtN, JTextField txtF, 
-			JTextField txtE,JTextField txtT, Hotel hotel,DefaultTableModel TableModel) {
+			JTextField txtE,JTextField txtT, Hotel hotel,DefaultTableModel TableModel,CustomerP mainPanel) {
 
 		this.txtN = txtN;
 		this.txtF = txtF;
@@ -36,6 +39,7 @@ public class AddingCustomerController implements ActionListener {
 		this.txtT = txtT;
 		this.hotel = hotel;
 		this.TableModel = TableModel ;
+		this.mainPanel = mainPanel;
 	}
 
 	@Override
@@ -46,9 +50,12 @@ public class AddingCustomerController implements ActionListener {
 		String Email = txtE.getText();
 		String PhoneNumber = txtT.getText();
 
-		Customer newCustomer = new Customer(FirstName, LastName, Email, PhoneNumber);
-
-		
+		Customer newCustomer = new Customer(LastName, FirstName, Email, PhoneNumber);
+		newCustomer.setHotel(hotel);
+		if(hotel.CheckIn(FirstName, LastName)!=null) {
+			
+			System.out.println("jE SUIS L0A");
+		}
 		String nameRegex = "([a-zA-Z',.-]+( [a-zA-Z',.-]+)*){2,30}";
 		String emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
 		String phoneRegex = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$";
@@ -56,6 +63,8 @@ public class AddingCustomerController implements ActionListener {
 		if(Email.isEmpty() || PhoneNumber.isEmpty()||FirstName.isEmpty()||LastName.isEmpty()) {
 
 			System.out.println("***ERROR FIELD EMPTY***");
+			JOptionPane.showMessageDialog(mainPanel, "Champ vide", "Erreur", JOptionPane.ERROR_MESSAGE);
+
 		}
 		else if(!FirstName.matches(nameRegex) || !LastName.matches(nameRegex)) {
 			System.out.println("***INVALID NAME***");
@@ -63,16 +72,23 @@ public class AddingCustomerController implements ActionListener {
 			System.out.println("***INVALID EMAIL***");
 		} else if (!PhoneNumber.matches(phoneRegex)) {
 			System.out.println("***INVALID PHONE NUMBER***");
+
 		}
-		else if((hotel.CheckIn(FirstName, LastName)==null)) {
-			hotel.addCustomer(newCustomer);
-			TableModel.addRow(new Object[] {LastName, FirstName, Email, PhoneNumber});
-			System.out.println("***ADDING CUSTOMER SUCCES***"+LastName+" "+FirstName);
-		}
-		else{
+		else if((hotel.CheckIn(FirstName, LastName)!=null)) {
 			System.out.println("***DUPLICATE DATA AVOID***");
 		}
+		else{
+			hotel.addCustomer(newCustomer);
+			TableModel.addRow(new Object[] {LastName, FirstName, Email, PhoneNumber});
+			 	txtN.setText("");
+			    txtF.setText("");
+			    txtE.setText("");
+			    txtT.setText("");
+			System.out.println("***ADDING CUSTOMER SUCCES***"+LastName+" "+FirstName);
+			
+			
+		
+		}
 	}
-
 }
 
