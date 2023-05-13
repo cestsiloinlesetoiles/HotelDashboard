@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/Téléchargement O/flatlaf-intellij-themes-3.1.1.jar"/>
 	<classpathentry kind="lib" path="D:/Téléchargement O/flatlaf-3.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/Téléchargement O/LGoodDatePicker-11.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

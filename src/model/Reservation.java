@@ -1,9 +1,11 @@
 package model;
-import java.util.*;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Reservation {
-
+	
+	private static int count;
+	private int id; 
 	public LocalDate date_start;
     public LocalDate date_end;
     public Customer customer;
@@ -13,43 +15,31 @@ public class Reservation {
 	
     
     
-    public Reservation(LocalDate date_start, LocalDate date_end) {
-    	LocalDate currentDate = LocalDate.now(); // Récupération de la date actuelle
-    	
-    	
-    	// [CHANGEMENT] DATE TO LOCALDATE COMMING after to IsBefore
-    	if(date_start.isAfter(date_end)) {
-    	 // ERREUR
-    	};
-    	
-    	if(date_start.isBefore(currentDate)) {
-       	 // ERREUR
-       	};
-    	
+    public Reservation(LocalDate date_start, LocalDate date_end) { 	
     	this.date_start = date_start;
         this.date_end = date_end;
+        id = count;
+        count++;
     }
     
-    // CAS OU LA CHAMBRE NEST PAS ATTRIBUABLE QUE FAIRE ?
-    
-    public void setRoom(Room room){
-    	// a Mettre dans le code principale if(room.CheckisFree(this.date_start,this.date_end)) {
-    	 this.room = room;
-    	}	
    
     
-    public void setCustomer(Customer customer){
-    	this.customer= customer;
-    }
-    
-    public void setHotel(Hotel hotel) {
-    	this.hotel=hotel;
-    }
-    
-    
-    public int getStayDuration() {
-		// TODO Auto-generated method stub
-		return 0;
+    public void setRoom(Room room){
+   	 this.room = room;
+   }	
+  
+   
+   public void setCustomer(Customer customer){
+   	this.customer= customer;
+   }
+   
+   public void setHotel(Hotel hotel) {
+   	this.hotel=hotel;
+   }
+   
+   
+   public int getStayDuration() {
+	   return (int) ChronoUnit.DAYS.between(date_start, date_end);
 	}
 
 	public Room getRoom() {
@@ -71,7 +61,30 @@ public class Reservation {
 	public void setStay(GuestStay stay) {
 		this.stay = stay;
 	}
-    
+
+	public int getId() {
+		return id;
+	}
+
+
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+
+
+	public void setDateStart(LocalDate date) {
+		this.date_start = date;
+		
+	}
+
+
+
+	public void setDateEnd(LocalDate date) {
+		 this.date_end = date;
+		
+	}
 	
 	
 	

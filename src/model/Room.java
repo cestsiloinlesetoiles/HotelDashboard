@@ -8,8 +8,7 @@ public class Room {
     public int floor;
     public int price;
     public int beds;
-    // LIST REV ASSIGNER A UNE ROOM
-    public Vector<Reservation> reservation = new Vector<Reservation>() ;
+    public Vector<Reservation> reservations = new Vector<Reservation>() ;
     public Hotel hotel;
     
     public Room(int num, int floor) {
@@ -31,17 +30,16 @@ public class Room {
     public boolean CheckisFree(LocalDate start, LocalDate end){
     	// Parcourir toutes les réservations de la chambre
     	// Vérifier simplement si end n'est pas inférieur à start et si end n'est pas supérieur à start
-    	for (Reservation res : reservation) {
+    	for (Reservation res : reservations) {
     		  // Vérifier si la réservation chevauche
-    		if (!end.isBefore(res.getDateStart()) || !start.isAfter(res.getDateEnd())) return false;
-    		}
+    		 if (!(end.isBefore(res.getDateStart()) || start.isAfter(res.getDateEnd()))) return false;
+    	 }
     	return true;
     }
 
 
 
 	public int getCost() {
-		// 0 zero code d'erreur sur room car les vrai définie par héritage
 		return 0;
 	}
 
@@ -68,5 +66,30 @@ public class Room {
 	public void setBeds(int beds) {
 		this.beds = beds;
 	}
+	
+	public void setFloor(int floor) {
+		this.floor = floor; 
+	}
+	
+	public void setNum(int num) {
+		this.num = num;
+	}
+	
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;	
+	}
+
+
+
+	public String getType() {
+		return "ERROR";
+	}
+
+	
+	public void addReservation(Reservation reservation) {
+	    this.reservations.add(reservation);
+	}
+	
+
 
 }

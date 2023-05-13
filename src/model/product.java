@@ -1,12 +1,12 @@
 package model;
 import java.util.*;
 
-public class product {
+public class Product {
 
     public String name;
     public int price;
 
-    public product(String name, int price) {
+    public Product(String name, int price) {
     	this.setName(name);
         this.setPrice(price);
     }

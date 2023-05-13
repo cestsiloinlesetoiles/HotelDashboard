@@ -64,4 +64,9 @@ public class Customer {
 	public void setListrsv_current_customer(Vector <Reservation> listrsv_current_customer) {
 		this.listrsv_current_customer = listrsv_current_customer;
 	}
+	
+	public void addReservation(Reservation reservation) {
+	    this.listrsv_current_customer.add(reservation);
+	}
+	
 }

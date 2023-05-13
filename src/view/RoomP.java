@@ -1,6 +1,10 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,321 +13,504 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
-import controller.Room.AddOptionController;
-import controller.Room.AddingRoomController;
-import controller.Room.DeleteRoomController;
-import controller.Room.OptionModifyController;
-import controller.Room.RomfieldCheckController;
-
+import controller.roomP.ControllerAddingOptions;
+import controller.roomP.ControllerAddingSingleRoom;
+import controller.roomP.ControllerDeletingRoomP;
 import model.DoubleRoom;
 import model.Hotel;
-import model.LuxaryRoom;
+import model.LuxuryRoom;
 import model.Options;
 import model.PresidentialSuite;
 import model.Room;
 import model.Simple;
-import view.Dialogs.MultipleAddingDialog;
+import view.custom.EditOptionsDialog;
+import view.custom.EditRoomDialog;
+import view.custom.MultipleAddingDialog;
+import view.ui.RoundedPanel;
+import view.ui.theme;
 
 public class RoomP extends JPanel {
-	public Hotel hotel;
-	public JTable tableRoom;
-	public DefaultTableModel tableModelRoom;
-	public JPanel pnlTable = new JPanel();
-	public JPanel pnlTopBoard = new JPanel();
-	public JPanel pnlOptions = new JPanel();
-	public JLabel lblError;
+	public Hotel h;
+	public JTable JTableRoom;
+	public DefaultTableModel TableModelRoom;
+	public JPanel pnlMain = new JPanel();
+	public JPanel pnlPageLevel = new JPanel();
+	public JComboBox<String> cbRoomType;
 	public Vector<Options> optionsVector = new Vector<>();
-	public JTable tableOptions;
-	public DefaultTableModel tableModelOptions;
-	
+	public JTable JTableOptions;
+	public DefaultTableModel TableModelOptions;
+
+
+
+	public JLabel lblFloor;
+	public JLabel lblRoomNumber;
+	public JTextField txtRoomNumber;
+	public JLabel lblRoomType;
+	public JTextField txtFloor;
+	public JButton btnAddRoom;
+	public JButton btnMultipleAdding;
+
+
+
+
+	public JTextField optionNameTextField;
+	public JTextField optionPriceTextField;
+
+
 	public RoomP(Hotel h) {
-		setBackground(new Color(255, 17, 17));
-		setLayout(new GridBagLayout());
-		
-		 // Ajout des options classique
+		this.h = h;
+		setLayout(new BorderLayout());
+
+		// Configuration du panel pnlPageLevel
+		ImageIcon pgIco = new ImageIcon("resources/pagelevel/2.png");
+		JLabel pg = new JLabel(pgIco);
+		pg.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
+		pnlPageLevel.setLayout(new BoxLayout(pnlPageLevel, BoxLayout.Y_AXIS));
+		pnlPageLevel.add(Box.createVerticalGlue());
+		pnlPageLevel.add(pg);
+		pnlPageLevel.add(Box.createVerticalGlue());
+		add(pnlPageLevel, BorderLayout.EAST);
+
+
+		add(pnlMain, BorderLayout.CENTER);
+		pnlMain.setBackground(theme.SECONDARY_BACKGROUND);
+		pnlPageLevel.setBackground(theme.SECONDARY_BACKGROUND);
+
+
+		pnlMain.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+
+		RoundedPanel pnlTopDiv = new RoundedPanel();
+		pnlTopDiv.setBackground(theme.BACKGROUND_PANEL);
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1.0;
+		gbc.weighty = 0.30;
+		gbc.insets = new Insets(15, 10, 5, 30);
+		pnlMain.add(pnlTopDiv, gbc);
+
+		RoundedPanel pnlJTable = new RoundedPanel();
+		pnlJTable.setLayout(new BorderLayout());
+		pnlJTable.setBackground(theme.BACKGROUND_PANEL);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 0.7; 
+		gbc.weighty = 0.7;
+		gbc.insets = new Insets(30, 10, 10, 10);
+		pnlMain.add(pnlJTable, gbc);
+
+		RoundedPanel pnlSide = new RoundedPanel();
+		pnlSide.setBackground(theme.BACKGROUND_PANEL);
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		gbc.gridwidth = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 0.3;
+		gbc.weighty = 0.7;
+		gbc.insets = new Insets(30, 0, 10, 30);
+		pnlMain.add(pnlSide, gbc);
+
+
+
+		// Ajout des options classique
 		Options breakfastOption = new Options("Petit déjeuner", 10);
-	    Options dailyCleaningOption = new Options("Nettoyage quotidien", 20);
-	    Options roomServiceOption = new Options("Service de chambre", 15);
-	    Options wifiOption = new Options("Accès Wi-Fi", 5);
+		Options dailyCleaningOption = new Options("Nettoyage quotidien", 20);
+		Options roomServiceOption = new Options("Service de chambre", 15);
+		Options wifiOption = new Options("Accès Wi-Fi", 5);
 
-	    optionsVector.add(breakfastOption);
-	    optionsVector.add(dailyCleaningOption);
-	    optionsVector.add(roomServiceOption);
-	    optionsVector.add(wifiOption);
-		
-		
-		// top board panel
-		pnlTopBoard.setLayout(new GridBagLayout());
-		pnlTopBoard.setBackground(new Color(240, 240, 240));
-		Border topBorder = BorderFactory.createTitledBorder("Ajout Unitaires");
-		pnlTopBoard.setBorder(topBorder);
+		optionsVector.add(breakfastOption);
+		optionsVector.add(dailyCleaningOption);
+		optionsVector.add(roomServiceOption);
+		optionsVector.add(wifiOption);
 
-		JLabel lblFloor = new JLabel("Étage:");
-		JLabel lblRoomNumber = new JLabel("Numéro de chambre:");
-		JTextField txtRoomNumber = new JTextField(5);
-		JLabel lblRoomType = new JLabel("Type de chambre:");
+
+
+
+		pnlTopDiv.setLayout(new GridBagLayout());
+
+		String titleText = "<html>Rooms<br>Manager</html>";
+		JLabel title = new JLabel(titleText);
+
+		title.setFont(new Font("SansSerif", Font.BOLD, 36));
+		title.setForeground(theme.BACKGROUND);
+		title.setBorder(BorderFactory.createEmptyBorder(0, 60, 0, 0));
+
+		JPanel formPanel = new JPanel();
+		formPanel.setBackground(theme.BACKGROUND_PANEL);
+
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 0.20;
+		pnlTopDiv.add(title, gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 0.8;
+		pnlTopDiv.add(formPanel, gbc);
+
+		JPanel subpanelJTables = new JPanel();
+		subpanelJTables.setLayout(new BorderLayout());
+
+
+
+		ImageIcon editIcon = new ImageIcon("resources/table/edit.png");
+		ImageIcon editIconActive = new ImageIcon("resources/table/editA.png");
+		JButton btnEdit = new JButton(editIcon);
+		btnEdit.setPressedIcon(editIconActive);
+		btnEdit.setContentAreaFilled(false);
+		btnEdit.setBorderPainted(false);
+
+		ImageIcon infoIcon = new ImageIcon("resources/table/info.png");
+		ImageIcon infoIconActive = new ImageIcon("resources/table/infoA.png");
+		JButton btnInfo = new JButton(infoIcon);
+		btnInfo.setPressedIcon(infoIconActive);
+		btnInfo.setContentAreaFilled(false);
+		btnInfo.setBorderPainted(false);
+
+
+
+		ImageIcon deleteIcon = new ImageIcon("resources/table/delete.png");
+		ImageIcon deleteIconActive = new ImageIcon("resources/table/deleteA.png");
+		JButton btnDelete = new JButton(deleteIcon);
+		btnDelete.setPressedIcon(deleteIconActive);
+		btnDelete.setContentAreaFilled(false);
+		btnDelete.setBorderPainted(false);
+		btnDelete.setActionCommand("Room");
+
+
+
+		JLabel searchLabel = new JLabel("Recherche:");
+		JTextField searchTextField = new JTextField(15);
+
+
+		JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		searchPanel.add(searchLabel);
+		searchPanel.add(searchTextField);
+
+		RoundedPanel buttonsPanel = new RoundedPanel();
+		buttonsPanel.setBackground(theme.SECONDARY_BACKGROUND);
+		buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		buttonsPanel.add(btnEdit);
+		buttonsPanel.add(btnInfo);
+		buttonsPanel.add(btnDelete);
+
+		JPanel searchAndButtonsPanel = new JPanel(new BorderLayout());
+		searchAndButtonsPanel.add(searchPanel, BorderLayout.WEST);
+		searchAndButtonsPanel.add(buttonsPanel, BorderLayout.EAST);
+
+		CreateTableModel();
+		JTableRoom = new JTable(TableModelRoom);
+
+
+		JScrollPane tableScrollPane = new JScrollPane(JTableRoom);
+		tableScrollPane.setPreferredSize(new Dimension(400, 300));
+
+
+
+		JTableHeader header = JTableRoom.getTableHeader();
+		header.setBackground(Color.decode("#232323"));
+		header.setForeground(Color.WHITE);
+		header.setFont(new Font("SansSerif", Font.BOLD, 14));
+		header.setOpaque(false);
+		header.setBorder(null);
+
+		JTableRoom.setShowGrid(false);
+
+		pnlJTable.add(searchAndButtonsPanel, BorderLayout.NORTH);
+		pnlJTable.add(tableScrollPane, BorderLayout.CENTER);
+		searchPanel.setBackground(theme.BACKGROUND_PANEL);
+		buttonsPanel.setBackground(theme.BACKGROUND_PANEL);
+		searchAndButtonsPanel.setBackground(theme.BACKGROUND_PANEL);
+		pnlJTable.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+
+
+
+
+		// OptionsPanel
+
+		pnlSide.setBackground(theme.BACKGROUND_PANEL);
+		pnlSide.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
+
+		JLabel optionNameLabel = new JLabel("Options Nom :");
+		optionNameTextField = new JTextField(15);
+
+		JLabel optionPriceLabel = new JLabel("Options Prix :");
+		optionPriceTextField = new JTextField(15);
+
+		CreateTableModelOptions();
+		JTableOptions = new JTable(TableModelOptions);
+
+		JScrollPane tableScrollPaneOptions = new JScrollPane(JTableOptions);
+		tableScrollPaneOptions.setPreferredSize(new Dimension(300, 400));
+
+		JTableHeader headerOptions = JTableOptions.getTableHeader();
+		headerOptions.setBackground(Color.decode("#232323"));
+		headerOptions.setForeground(Color.WHITE);
+		headerOptions.setFont(new Font("SansSerif", Font.BOLD, 14));
+		headerOptions.setOpaque(false);
+		headerOptions.setBorder(null);
+		JTableOptions.setShowGrid(false);
+
+		RoundedPanel optionsPanel = new RoundedPanel();
+		optionsPanel.setLayout(new GridBagLayout());
+		optionsPanel.setBackground(theme.BACKGROUND_PANEL);
+		JButton btnAddOption = new JButton("Ajouter");
+		GridBagConstraints gbcOptions = new GridBagConstraints();
+
+
+
+		gbcOptions.fill = GridBagConstraints.HORIZONTAL;
+		gbcOptions.insets = new Insets(2, 2, 2, 2);
+
+		gbcOptions.gridx = 0;
+		gbcOptions.gridy = 0;
+		optionsPanel.add(optionNameLabel, gbcOptions);
+
+		gbcOptions.gridx = 1;
+		gbcOptions.gridy = 0;
+
+		optionsPanel.add(optionNameTextField, gbcOptions);
+
+		gbcOptions.gridx = 0;
+		gbcOptions.gridy = 1;
+
+
+		optionsPanel.add(optionPriceLabel, gbcOptions);
+
+		gbcOptions.gridx = 1;
+		gbcOptions.gridy = 1;
+		gbcOptions.weightx = 1.0;
+		optionsPanel.add(optionPriceTextField, gbcOptions);
+
+		gbcOptions.gridx = 0;
+
+		gbcOptions.gridy = 2;
+		gbcOptions.gridwidth = 2; 
+
+		optionsPanel.add(btnAddOption, gbcOptions);
+
+
+
+
+		RoundedPanel buttonsPanel2 = new RoundedPanel();
+		buttonsPanel2.setBackground(theme.BACKGROUND_PANEL);
+		buttonsPanel2.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+		JButton btnEdit2 = new JButton(editIcon);
+		btnEdit2.setPressedIcon(editIconActive);
+		btnEdit2.setContentAreaFilled(false);
+		btnEdit2.setBorderPainted(false);
+		buttonsPanel2.add(btnEdit2);
+
+		JButton btnDelete2 = new JButton(deleteIcon);
+		btnDelete2.setPressedIcon(deleteIconActive);
+		btnDelete2.setContentAreaFilled(false);
+		btnDelete2.setBorderPainted(false);
+		buttonsPanel2.add(btnDelete2);
+
+
+		JPanel ButtonAndTableOptions = new JPanel(new BorderLayout());
+
+		ButtonAndTableOptions.add(buttonsPanel2,BorderLayout.NORTH);
+		ButtonAndTableOptions.add(tableScrollPaneOptions,BorderLayout.CENTER);
+
+		pnlSide.setLayout(new BorderLayout());
+		pnlSide.add(optionsPanel,BorderLayout.SOUTH);
+		pnlSide.add(ButtonAndTableOptions,BorderLayout.CENTER);
+
+
+
+
+
+		lblFloor = new JLabel("Étage:");
+		lblRoomNumber = new JLabel("Numéro de chambre:");
+		txtRoomNumber = new JTextField(5);
+		lblRoomType = new JLabel("Type de chambre:");
 		String[] comboBoxItems = {"Simple", "Double", "Luxury", "Presidential"};
-		JComboBox<String> cbRoomType = new JComboBox<>(comboBoxItems);
-		JTextField txtFloor = new JTextField(5);
-		
-		
+		cbRoomType = new JComboBox<>(comboBoxItems);
+		txtFloor = new JTextField(5);
+		btnAddRoom = new JButton("Ajouter");
 
-		JButton btnAddRoom = new JButton("Ajouter Chambre");
-		AddingRoomController addR = new AddingRoomController(txtFloor, txtRoomNumber, cbRoomType,h,  this);
-		btnAddRoom.addActionListener(addR);
+		JButton btnMultipleAdding = new JButton("Ajouts par lots");
+
+
+
+
+		txtFloor.setPreferredSize(new Dimension(80, 20));
+		txtRoomNumber.setPreferredSize(new Dimension(80, 20));
+		formPanel.setLayout(new GridBagLayout());
+		GridBagConstraints gbcForm = new GridBagConstraints();
+		gbcForm.insets = new Insets(2, 2, 2, 2);
+		// Ligne 1: Titres
+		gbcForm.gridx = 0;
+		gbcForm.gridy = 0;
+		formPanel.add(lblFloor, gbcForm);
+
+		gbcForm.gridx = 1;
+		formPanel.add(lblRoomNumber, gbcForm);
+
+		gbcForm.gridx = 2;
+		formPanel.add(lblRoomType, gbcForm);
+
+		// Ligne 2: Champs texte et JComboBox
+		gbcForm.fill = GridBagConstraints.HORIZONTAL;
+		gbcForm.gridx = 0;
+		gbcForm.gridy = 1;
+		gbcForm.weightx = 0.4; 
+		formPanel.add(txtFloor, gbcForm);
+
+		gbcForm.gridx = 1;
+		gbcForm.weightx = 0.4; 
+		formPanel.add(txtRoomNumber, gbcForm);
+
+		gbcForm.gridx = 2;
+		gbcForm.weightx = 0.2; 
+		formPanel.add(cbRoomType, gbcForm);
+
+		// Ligne 3: Boutons
+		gbcForm.gridx = 0;
+		gbcForm.gridy = 2;
+		gbcForm.gridwidth = 2;
+		gbcForm.weightx = 0.8;
+		formPanel.add(btnAddRoom, gbcForm);
+
+
+		gbcForm.gridx = 2;
+		gbcForm.weightx = 0.2;
+		formPanel.add(btnMultipleAdding, gbcForm);
+
+
+
+		formPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0,0));
+		formPanel.setPreferredSize(new Dimension(200,100));
+
+
+
+
+		//Controller 
 		RoomP r = this;
-		JButton btnMultipleAdding = new JButton("Ajouts Multiple");
-        btnMultipleAdding.addActionListener(new ActionListener() {
+		btnAddRoom.addActionListener(new ControllerAddingSingleRoom(this));
+		btnAddOption.addActionListener( new ControllerAddingOptions(this));
+
+		btnMultipleAdding.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new MultipleAddingDialog(r);
+
+			}
+		});
+
+		btnDelete.addActionListener(new ControllerDeletingRoomP(this));
+		btnDelete2.addActionListener(new ControllerDeletingRoomP(this));
+		
+		
+		btnEdit.addActionListener(new ActionListener() {
+			
+			
+			
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new MultipleAddingDialog(h, r);
+				int selectedRow = JTableRoom.getSelectedRow();
+				if(selectedRow>-1) {
+				int floor = (int) r.JTableRoom.getValueAt(selectedRow, 0);
+				int num =  (int) r.JTableRoom.getValueAt(selectedRow, 1);
+				Room room = r.h.getRoom(floor, num);
+				new EditRoomDialog(room, r);
+				}
+				else {
+					JOptionPane.showMessageDialog(r, "Aucune ligne sélectionnée dans la liste des chambres.", "Information", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
 			}
 		});
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(5, 5, 5, 5);
-
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-		pnlTopBoard.add(lblFloor, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		pnlTopBoard.add(txtFloor, gbc);
-
-		gbc.gridx = 2;
-		gbc.gridy = 0;
-		pnlTopBoard.add(lblRoomNumber, gbc);
-
-		gbc.gridx = 3;
-		gbc.gridy = 0;
-		pnlTopBoard.add(txtRoomNumber, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		pnlTopBoard.add(lblRoomType, gbc);
-
-		gbc.gridx = 1; gbc.gridy = 1; pnlTopBoard.add(cbRoomType, gbc);
-
-		gbc.gridx = 2;
-		gbc.gridy = 1;
-		pnlTopBoard.add(btnAddRoom, gbc);
-
-		gbc.gridx = 3;
-		gbc.gridy = 1;
-		pnlTopBoard.add(btnMultipleAdding, gbc);
-
 	
-		lblError = new JLabel("");
-		lblError.setForeground(Color.RED);
-		RomfieldCheckController rfc = new RomfieldCheckController(txtFloor, txtRoomNumber, lblError , h);
-        txtFloor.addFocusListener(rfc);
-        txtRoomNumber.addFocusListener(rfc);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.gridwidth = 4;
-		pnlTopBoard.add(lblError, gbc);
-
-		// options panel
-		// options panel
-		pnlOptions.setLayout(new GridBagLayout());
-		pnlOptions.setBackground(new Color(240, 240, 240));
-		Border optionsBorder = BorderFactory.createTitledBorder("Options");
-		pnlOptions.setBorder(optionsBorder);
-
-		JTextField txtOptionName;
-		JTextField txtOptionPrice;
-		JButton btnAddOption;
-		JButton btnRemoveOption; // Nouveau bouton
-
-		JLabel lblOptionName = new JLabel("Nom de l'option:");
-		txtOptionName = new JTextField(10);
-		JLabel lblOptionPrice = new JLabel("Prix de l'option:");
-		txtOptionPrice = new JTextField(10);
-		btnAddOption = new JButton("Ajouter Option");
-
-		btnAddOption.addActionListener(new AddOptionController(txtOptionName, txtOptionPrice, this));
-		
-		btnRemoveOption = new JButton("Supprimer Option");
-		btnRemoveOption.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        int selectedRow = tableOptions.getSelectedRow();
-		        if (selectedRow != -1) {
-		            optionsVector.remove(selectedRow);
-		            updateTableModelOptions(optionsVector);
-		            // Console Check
-		            System.out.println("**************");
-		            for(int i = 0; i<optionsVector.size();i++) {
-		            	Options options = optionsVector.get(i);
-		            	System.out.println("| "+options.getName()+" |");
-		            	
-		            }
-		        }
-		    }
+		btnEdit2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int selectedRow = JTableOptions.getSelectedRow();
+				if(selectedRow>-1) {
+					String name =   (String) r.JTableOptions.getValueAt(selectedRow, 0);
+					Options opt = getOptionByName(name);
+					new EditOptionsDialog(r, opt);
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(r, "Aucune ligne sélectionnée dans les options.", "Information", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+			}
 		});
+			
 		
-		JButton btnEditOption = new JButton("Modifier Option");
-		btnEditOption.addActionListener(new OptionModifyController(txtOptionName, txtOptionPrice, r));
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		gbc.gridwidth = 2;
-		pnlOptions.add(btnEditOption, gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-		pnlOptions.add(lblOptionName, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		pnlOptions.add(txtOptionName, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		pnlOptions.add(lblOptionPrice, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		pnlOptions.add(txtOptionPrice, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.gridwidth = 2;
-		pnlOptions.add(btnAddOption, gbc);
-
-		// Ajoutez le nouveau bouton
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		gbc.gridwidth = 2;
-		pnlOptions.add(btnRemoveOption, gbc);
-
-		// Ajout de la JTable pour les options
-		tableModelOptions = CreateTableModelOptions(optionsVector);
-		tableOptions = new JTable(tableModelOptions);
-		JScrollPane scrollPaneOptions = new JScrollPane(tableOptions);
-
-		gbc.gridx = 0;
-		gbc.gridy = 4;
-		gbc.gridwidth = 2;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
-		gbc.weighty = 1;
-		pnlOptions.add(scrollPaneOptions, gbc);
-		// table panel
-		pnlTable.setLayout(new GridBagLayout());
-		pnlTable.setBackground(new Color(240, 240, 240));
-		Border tableBorder = BorderFactory.createTitledBorder("Liste des chambres");
-		pnlTable.setBorder(tableBorder);
-
-		tableModelRoom = CreateTableModelRoom(h);
-		tableRoom = new JTable(tableModelRoom);
-		JScrollPane scrollPane = new JScrollPane(tableRoom);
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 2; 
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
-		gbc.weighty = 1; 
-		pnlTable.add(scrollPane, gbc);
-
-		JButton btnEditRoom = new JButton("Modifier");
-		JButton btnDeleteRoom = new JButton("Supprimer");
-		
-		DeleteRoomController dRoomC = new DeleteRoomController(h, tableRoom, r);
-		btnDeleteRoom.addActionListener(dRoomC);
-		
-
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 1;
-		gbc.weighty = 0;
-		pnlTable.add(btnEditRoom, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		pnlTable.add(btnDeleteRoom, gbc);
-
-
-		// main panel layout
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
-		gbc.weighty = 0.2;
-		add(pnlTopBoard, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 0.2;
-		gbc.weighty = 0.6;
-		add(pnlTable, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 0.2;
-		gbc.weighty = 0.6;
-		add(pnlOptions, gbc);
-	}
-
-	 public void updateTableModel(Hotel hotel) {
-	        tableModelRoom = CreateTableModelRoom(hotel);
-	        tableRoom.setModel(tableModelRoom);
-	        tableModelRoom.fireTableDataChanged();
-	    }
 	
-	public DefaultTableModel CreateTableModelRoom(Hotel hotel) {
-		String[] columnNames = {"Etage", "Numero", "Type", "Options"};
+	} 
 
-		Object[][] data = new Object[hotel.rooms.size()][4];
 
-		for (int i = 0; i < hotel.rooms.size(); i++) {
-			Room room = hotel.rooms.get(i);
+
+
+	public void CreateTableModel() {
+
+		String[] columnNames = {"Etage", "Numero", "Type"};
+
+		Object[][] data = new Object[h.rooms.size()][4];
+
+		for (int i = 0; i < h.rooms.size(); i++) {
+			Room room = h.rooms.get(i);
 
 			data[i][0] = room.getFloor(); 
-					
+
 			data[i][1] = room.getNum();
 
 			if (room instanceof Simple) {
 				data[i][2] = "Simple";
 			} else if (room instanceof DoubleRoom) {
 				data[i][2] = "Double";
-			} else if (room instanceof LuxaryRoom) {
+			} else if (room instanceof LuxuryRoom) {
 				data[i][2] = "Luxury";
 			} else if (room instanceof PresidentialSuite) {
 				data[i][2] = "Presidential";
 			} else {
 				data[i][2] = "Erreur";
 			}
-
-			if (room instanceof DoubleRoom || room instanceof Simple) {
-				data[i][3] = "Aucune option disponible sur chambre";
-			}
 		}
-		DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
-		return tableModel;
+
+		TableModelRoom = new DefaultTableModel(data, columnNames);
+
 	}
-	
-	public DefaultTableModel CreateTableModelOptions(Vector<Options> optionsVector) {
+
+
+
+	public void updateTableModel() {
+		CreateTableModel();
+		JTableRoom.setModel(TableModelRoom);
+		TableModelRoom.fireTableDataChanged();
+	}
+
+
+	public void CreateTableModelOptions() {
 		String[] columnNames = {"Nom de l'option", "Prix de l'option"};
 
 		Object[][] data = new Object[optionsVector.size()][2];
@@ -332,16 +519,48 @@ public class RoomP extends JPanel {
 			Options options = optionsVector.get(i);
 
 			data[i][0] = options.getName(); 
-					
+
 			data[i][1] = options.getCost();
 		}
-		DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
-		return tableModel;
+		TableModelOptions = new DefaultTableModel(data, columnNames);
+
 	}
+
+	public void updateTableModelOptions() {
+		CreateTableModelOptions();
+		JTableOptions.setModel(TableModelOptions);
+		TableModelOptions.fireTableDataChanged();
+	} 
+
+
+
+
+	public void removeOption(String name) {
+		for (int i = 0; i < optionsVector.size(); i++) {
+			if (optionsVector.get(i).getName().equals(name)) {
+				optionsVector.remove(i);
+				h.removeOptionFromRooms(name);
+				updateTableModelOptions(); 
+				break; 
+			}
+		
 	
-	 public void updateTableModelOptions(Vector<Options> optionsVector) {
-	        tableModelOptions = CreateTableModelOptions(optionsVector);
-	        tableOptions.setModel(tableModelOptions);
-	        tableModelOptions.fireTableDataChanged();
-	    } 
-}    
+		}
+	}
+
+
+
+
+
+	public Options getOptionByName(String name) {
+		for (Options option : optionsVector) {
+			if (option.getName().equals(name)) {
+				return option;
+			}
+		}
+		return null;
+	}
+
+
+
+}

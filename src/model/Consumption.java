@@ -6,7 +6,7 @@ public class Consumption {
 	
 	// Rappel sejour = guestStay
 	public int qt;
-    public product product;
+    public Product product;
     public GuestStay stay;
     
     //Default constructor
@@ -22,7 +22,7 @@ public class Consumption {
     }
 // SET LE PROD   
     
-    public void setProduct(product product) {
+    public void setProduct(Product product) {
     	this.product = product;
     }
     

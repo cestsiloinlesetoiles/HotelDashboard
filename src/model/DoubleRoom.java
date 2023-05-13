@@ -36,5 +36,10 @@ public class DoubleRoom extends Room {
         DoubleRoom.spec_price = nprice;
     }
     
+    @Override
+    public String getType() {
+		
+		return "Double";
+	}
 
 }

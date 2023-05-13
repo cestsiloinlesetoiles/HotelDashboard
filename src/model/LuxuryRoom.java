@@ -1,15 +1,15 @@
 package model;
-import java.util.Vector;
+import java.util.*;
 
 
-public class PresidentialSuite extends Room {
+public class LuxuryRoom extends Room {
 	
 	private static int spec_price;
 	private static int spec_bed;
 	
-    public Vector<Options> listoptions;
-
-    public PresidentialSuite(int num, int floor) {
+	private Vector<Options> listoptions;
+    
+    public LuxuryRoom(int num, int floor) {
     	super(num,floor);
     	this.setPrice(spec_price);
         this.setBeds(spec_bed);
@@ -17,17 +17,13 @@ public class PresidentialSuite extends Room {
         this.listoptions = new Vector<>();
     }
     
-    //Setup mes attribut de classes
-    public Vector<Options> getListOptions() {
-    	return listoptions;
-    }
-    
-    
+
     @Override
     public int getCost() {
-    
-    	int OptionsCost = 0;
 
+    	int OptionsCost = 0;
+    	// type element : collection
+    	
     	for ( Options opts  : listoptions) {
     		OptionsCost+= opts.getCost();
     	} 
@@ -41,22 +37,23 @@ public class PresidentialSuite extends Room {
         return spec_bed;
     }
     
+    public Vector<Options> getListOptions() {
+    	return listoptions;
+    }
+    
     //Setup mes attribut de classes
     
     public void setNbrOfbeds(int nbeds) {
-    	PresidentialSuite.spec_bed = nbeds;
+    	LuxuryRoom.spec_bed = nbeds;
     }
     
     public void setCostroom(int nprice) {
-    	PresidentialSuite.spec_price = nprice;
+    	LuxuryRoom.spec_price = nprice;
     }
     
     public void addOptions(Options opt) {
-    	if(optionExists(opt.name)) {
     	listoptions.add(opt);
-    	}
     }
-    
     
     public void removeOptions(String name) {
         for (int i = 0; i < listoptions.size(); i++) {
@@ -67,6 +64,7 @@ public class PresidentialSuite extends Room {
         }
     }
     
+    
     public boolean optionExists(String name) {
         for (int i = 0; i < listoptions.size(); i++) {
             if (listoptions.get(i).getName().equals(name)) {
@@ -76,10 +74,6 @@ public class PresidentialSuite extends Room {
         return false;
     }
     
-    
-   
-   
-    
     public void setlistOptions(Vector<Options> listoptions) {
     	this.listoptions = listoptions;
     }
@@ -87,6 +81,6 @@ public class PresidentialSuite extends Room {
     @Override
     public String getType() {
 		
-		return "PresidentialSuite";
+		return "Luxury";
 	}
 }

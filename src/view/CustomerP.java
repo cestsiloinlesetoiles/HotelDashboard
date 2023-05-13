@@ -2,218 +2,287 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
-import controller.Customer.AddingCustomerController;
-import controller.Customer.SearchSortController;
-import controller.Customer.TableSelectionController;
-import controller.Customer.fieldcheck.EmailFieldController;
-import controller.Customer.fieldcheck.NameFieldController;
-import controller.Customer.fieldcheck.PhoneFieldController;
+import controller.customerP.ControllerAddingCustomer;
+import controller.customerP.ControllerDelCustomers;
 import model.Customer;
 import model.Hotel;
-import view.Custompanel.ActionMenuP;
+import view.custom.EditCustomerDialog;
+import view.ui.RoundedPanel;
+import view.ui.theme;
 
 public class CustomerP extends JPanel {
-    JPanel mainPanel;
-	JTable listCustomer;
-    JPanel pnlTable = new JPanel();
-    JPanel pnlAddingCustomer = new JPanel();
-    JPanel pnlTopBoard = new JPanel();
-    DefaultTableModel TableModelCustomer;
-	
-    
-    public CustomerP(Hotel hotel) {
-    	
-    	
-        pnlTopBoard.setBackground(Color.BLUE);
-        pnlTable.setBackground(Color.GREEN);
-        pnlAddingCustomer.setBackground(Color.GRAY);
+	public Hotel h;
+	public JTable JTableCustomer;
+	public DefaultTableModel TableModelCustomer;
+	public JPanel pnlMain = new JPanel();
+	public JPanel pnlPageLevel = new JPanel();
 
-        this.setBackground(Color.YELLOW);
 
-        
-        
-        // AddingCustomer Components 
-        
-        JLabel lblLastName = new JLabel("Nom:");
-        JLabel lblFirstName = new JLabel("Prénom:");
-        JLabel lblEmail = new JLabel("Email:");
-        JLabel lblPhone = new JLabel("Téléphone:");
-        JTextField txtLastName = new JTextField(15);
-        JTextField txtFirstName = new JTextField(15);
-        JTextField txtEmail = new JTextField(15);
-        JTextField txtPhone = new JTextField(15);
-        JButton btnAddingCustomer = new JButton("Ajouter");
-        
-        
-        // AddingCustomer setgrid
-        pnlAddingCustomer.setLayout(new GridBagLayout());
-        GridBagConstraints gbcCustomer = new GridBagConstraints();
-        gbcCustomer.gridx = 0;
-        gbcCustomer.gridy = 0;
-        gbcCustomer.anchor = GridBagConstraints.WEST;
-        gbcCustomer.insets = new Insets(5, 5, 5, 5);
 
-        pnlAddingCustomer.add(lblLastName, gbcCustomer);
-        gbcCustomer.gridy++;
-        pnlAddingCustomer.add(lblFirstName, gbcCustomer);
-        gbcCustomer.gridy++;
-        pnlAddingCustomer.add(lblEmail, gbcCustomer);
-        gbcCustomer.gridy++;
-        pnlAddingCustomer.add(lblPhone, gbcCustomer);
+	public JLabel lblLastName = new JLabel("Nom :");
+	public JLabel lblFirstName = new JLabel("Prénom :");
+	public JLabel lblEmail = new JLabel("Email :");
+	public JLabel lblPhone = new JLabel("Téléphone :");
+	public JTextField txtLastName = new JTextField(15);
+	public JTextField txtFirstName = new JTextField(15);
+	public JTextField txtEmail = new JTextField(15);
+	public JTextField txtPhone = new JTextField(15);
+	public JButton btnAddingCustomer = new JButton("Ajouter");
 
-        gbcCustomer.gridx++;
-        gbcCustomer.gridy = 0;
-        pnlAddingCustomer.add(txtLastName, gbcCustomer);
-        gbcCustomer.gridy++;
-        pnlAddingCustomer.add(txtFirstName, gbcCustomer);
-        gbcCustomer.gridy++;
-        pnlAddingCustomer.add(txtEmail, gbcCustomer);
-        gbcCustomer.gridy++;
-        pnlAddingCustomer.add(txtPhone, gbcCustomer);
+	public CustomerP(Hotel h) {
+		this.h = h;
 
-        gbcCustomer.gridx = 0;
-        gbcCustomer.gridy++;
-        gbcCustomer.gridwidth = 2;
-        gbcCustomer.fill = GridBagConstraints.HORIZONTAL;
-        pnlAddingCustomer.add(btnAddingCustomer, gbcCustomer);
-       
-        JLabel lblLastNameError = new JLabel("");
-        JLabel lblFirstNameError = new JLabel("");
-        JLabel lblEmailError = new JLabel("");
-        JLabel lblPhoneError = new JLabel("");
-        
-        
-        gbcCustomer.gridy++;
-        pnlAddingCustomer.add(lblLastNameError, gbcCustomer);
-        gbcCustomer.gridy++;
-        pnlAddingCustomer.add(lblFirstNameError, gbcCustomer);
-        gbcCustomer.gridy++;
-        pnlAddingCustomer.add(lblEmailError, gbcCustomer);
-        gbcCustomer.gridy++;
-        pnlAddingCustomer.add(lblPhoneError, gbcCustomer);
+        setLayout(new BorderLayout());
+        ImageIcon pgIco = new ImageIcon("resources/pagelevel/3.png");
+        JLabel pg = new JLabel(pgIco);
+        pg.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
+        pnlPageLevel.setLayout(new BoxLayout(pnlPageLevel, BoxLayout.Y_AXIS));
+        pnlPageLevel.add(Box.createVerticalGlue());
+        pnlPageLevel.add(pg);
+        pnlPageLevel.add(Box.createVerticalGlue());
+        add(pnlPageLevel, BorderLayout.EAST);
 
-        
-        NameFieldController nfieldc = new NameFieldController(lblLastNameError,true);
-        NameFieldController nfieldc2 = new NameFieldController(lblFirstNameError,false);
-        EmailFieldController efieldc = new EmailFieldController(lblEmailError);
-        PhoneFieldController phfieldc = new PhoneFieldController(lblPhoneError);
-        
-        txtLastName.addFocusListener(nfieldc);
-        txtFirstName.addFocusListener(nfieldc2);
-        txtEmail.addFocusListener(efieldc);
-        txtPhone.addFocusListener(phfieldc);
-        
-        
-        
-     
-        
-        //SetTable Components
-        
-        pnlTable.setLayout(new BorderLayout());
-        TableModelCustomer = TableModel(hotel);
-        AddingCustomerController acc = new AddingCustomerController(txtLastName, txtFirstName, txtEmail, txtPhone, hotel,TableModelCustomer,this);
-        JTable TableCustomer = new JTable(TableModelCustomer);
-        JScrollPane scrollPane = new JScrollPane(TableCustomer);
-        TableCustomer.setAutoCreateRowSorter(true);  
-        pnlTable.add(scrollPane, BorderLayout.CENTER);
-        
-        
-        btnAddingCustomer.addActionListener(acc);
-        
-        ActionMenuP actbtn = new ActionMenuP(TableCustomer,TableModelCustomer,hotel,this);
-        pnlTable.add(actbtn,BorderLayout.EAST);
-        
-        TableCustomer.getSelectionModel().addListSelectionListener(new TableSelectionController(TableCustomer, actbtn));
-        
-        
-        
-        
-       
-        
-        
-        
-        
-        
-       
-        
-        JLabel srch = new JLabel("Recherche");
-        JTextField searchField = new JTextField(15);
+        add(pnlMain, BorderLayout.CENTER);
+        pnlMain.setBackground(theme.SECONDARY_BACKGROUND);
+        pnlPageLevel.setBackground(theme.SECONDARY_BACKGROUND);
 
-        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        searchPanel.add(srch);
-        searchPanel.add(searchField);
-        pnlTable.add(searchPanel, BorderLayout.NORTH);
-        SearchSortController srchC = new SearchSortController(TableCustomer, TableModelCustomer,searchField);
-        searchField.getDocument().addDocumentListener(srchC);;
-        
-       
-        
-        this.setLayout(new GridBagLayout());
+        pnlMain.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(8, 8, 8, 8);
-        
-        // Top board
+
+        RoundedPanel pnlTopDiv = new RoundedPanel();
+        pnlTopDiv.setBackground(theme.BACKGROUND_PANEL);
         gbc.gridx = 0;
-        gbc.gridwidth = 4;
-        gbc.gridheight = 1;
         gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 0.30;
-        add(pnlTopBoard, gbc);
-        
-        // AddingCustomer panel
-        gbc.gridx = 3;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.weighty = 1;
-        gbc.weightx = 0.20;
-        gbc.gridheight = 3;
-        add(pnlAddingCustomer, gbc);
+        gbc.insets = new Insets(15, 10, 5, 30);
+        pnlMain.add(pnlTopDiv, gbc);
 
-        // Table panel
+        RoundedPanel pnlJTable = new RoundedPanel();
+        pnlJTable.setBackground(theme.BACKGROUND_PANEL);
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.weightx = 0.80;
-        gbc.gridwidth = 3;
-        gbc.gridheight = 3;
-        add(pnlTable, gbc);
-    }
-    
-    
-    public DefaultTableModel TableModel(Hotel hotel) {
-    	
-    	
-    	
-    	String[] columnNames = {"Nom", "Prénom", "Email", "Téléphone"};
-    	
-    	Object[][] data = new Object[hotel.customers.size()][5];
-    	
-    	
-    	for (int i = 0; i < hotel.customers.size(); i++) {
-    	    Customer customer = hotel.customers.get(i);
-    	    data[i][0] = customer.getLastName();
-    	    data[i][1] = customer.getFirstName();
-    	    data[i][2] = customer.getEmail();
-    	    data[i][3] = customer.getPhoneNumber();
-    	}
-    	DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
-    	return tableModel;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.70;
+        gbc.insets = new Insets(30, 10, 10, 30);
+        pnlMain.add(pnlJTable, gbc);
+
+        pnlTopDiv.setLayout(new GridBagLayout());
+        
+        String titleText = "<html>Customer<br>Manager</html>";
+        JLabel title = new JLabel(titleText);
+
+        title.setFont(new Font("SansSerif", Font.BOLD, 36));
+        title.setForeground(theme.BACKGROUND);
+        title.setBorder(BorderFactory.createEmptyBorder(0, 60, 0, 0));
+
+        JPanel formPanel = new JPanel();
+        formPanel.setBackground(Color.blue);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.20;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.fill = GridBagConstraints.NONE;
+        pnlTopDiv.add(title, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.8;
+        pnlTopDiv.add(formPanel, gbc);
+
+      
+
+        ImageIcon editIcon = new ImageIcon("resources/table/edit.png");
+        ImageIcon editIconActive = new ImageIcon("resources/table/editA.png");
+        JButton btnEdit = new JButton(editIcon);
+        btnEdit.setPressedIcon(editIconActive);
+        btnEdit.setContentAreaFilled(false);
+        btnEdit.setBorderPainted(false);
+
+        ImageIcon infoIcon = new ImageIcon("resources/table/info.png");
+        ImageIcon infoIconActive = new ImageIcon("resources/table/infoA.png");
+        JButton btnInfo = new JButton(infoIcon);
+        btnInfo.setPressedIcon(infoIconActive);
+        btnInfo.setContentAreaFilled(false);
+        btnInfo.setBorderPainted(false);
+
+        ImageIcon deleteIcon = new ImageIcon("resources/table/delete.png");
+        ImageIcon deleteIconActive = new ImageIcon("resources/table/deleteA.png");
+        JButton btnDelete = new JButton(deleteIcon);
+        btnDelete.setPressedIcon(deleteIconActive);
+        btnDelete.setContentAreaFilled(false);
+        btnDelete.setBorderPainted(false);
+        
+        CreateTableModel();
+        JTableCustomer = new JTable(TableModelCustomer);
+        
+        JLabel searchLabel = new JLabel("Recherche:");
+        JTextField searchTextField = new JTextField(15);
+
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        searchPanel.add(searchLabel);
+        searchPanel.add(searchTextField);
+
+        RoundedPanel buttonsPanel = new RoundedPanel();
+        buttonsPanel.setBackground(theme.SECONDARY_BACKGROUND);
+        buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        buttonsPanel.add(btnEdit);
+        buttonsPanel.add(btnInfo);
+        buttonsPanel.add(btnDelete);
+
+        JPanel searchAndButtonsPanel = new JPanel(new BorderLayout());
+        searchAndButtonsPanel.add(searchPanel, BorderLayout.WEST);
+        searchAndButtonsPanel.add(buttonsPanel, BorderLayout.EAST);
+
+        
+        pnlJTable.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
+        
+
+        JScrollPane tableScrollPane = new JScrollPane(JTableCustomer);
+        tableScrollPane.setPreferredSize(new Dimension(870, 500));
+
+        JTableHeader header = JTableCustomer.getTableHeader();
+        header.setForeground(Color.decode("#232323"));
+        header.setFont(new Font("SansSerif", Font.BOLD, 14));
+        header.setBorder(BorderFactory.createEmptyBorder());
+        header.setBackground(null);
+        JTableCustomer.setShowGrid(false);
+        
+        
+        searchPanel.setBackground(theme.BACKGROUND_PANEL);
+        buttonsPanel.setBackground(theme.BACKGROUND_PANEL);
+        searchAndButtonsPanel.setBackground(theme.BACKGROUND_PANEL);
+        
+        pnlJTable.setLayout(new BorderLayout());
+        pnlJTable.add(searchAndButtonsPanel, BorderLayout.NORTH);
+        pnlJTable.add(tableScrollPane, BorderLayout.CENTER);
+        
+        
+        // Partie formulaire
+
+        formPanel.setLayout(new GridBagLayout());
+        formPanel.setBackground(theme.BACKGROUND_PANEL);
+
+        GridBagConstraints formGbc = new GridBagConstraints();
+        formGbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        formGbc.insets = new Insets(5, 5, 5, 5);
+
+        formGbc.gridx = 0;
+        formGbc.gridy = 0;
+        formPanel.add(lblLastName, formGbc);
+
+        formGbc.gridx = 1;
+        formGbc.gridy = 0;
+        formPanel.add(txtLastName, formGbc);
+        formGbc.gridx = 2;
+        formGbc.gridy = 0;
+        formPanel.add(lblFirstName, formGbc);
+
+        formGbc.gridx = 3;
+        formGbc.gridy = 0;
+        formPanel.add(txtFirstName, formGbc);
+
+        formGbc.gridx = 0;
+        formGbc.gridy = 1;
+        formPanel.add(lblEmail, formGbc);
+
+        formGbc.gridx = 1;
+        formGbc.gridy = 1;
+        formPanel.add(txtEmail, formGbc);
+
+        formGbc.gridx = 2;
+        formGbc.gridy = 1;
+        formPanel.add(lblPhone, formGbc);
+
+        formGbc.gridx = 3;
+        formGbc.gridy = 1;
+        formPanel.add(txtPhone, formGbc);
+
+        formGbc.gridx = 0;
+        formGbc.gridy = 2;
+        formGbc.gridwidth = 4;
+        formGbc.weightx = 1;
+        
+        
+        formPanel.add(btnAddingCustomer, formGbc);
+
+        btnAddingCustomer.addActionListener(new ControllerAddingCustomer(this));
+        btnDelete.addActionListener(new ControllerDelCustomers(this));
+
+        CustomerP c = this;
+        btnEdit.addActionListener(new ActionListener() {
+        	
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	int selectedRow = JTableCustomer.getSelectedRow();
+            	if (selectedRow > -1) {
+                new EditCustomerDialog(c);
+            	}
+            	else {
+            		JOptionPane.showMessageDialog(c, "Aucune ligne sélectionnée.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            	}
+                
+            }
+        });
 	}
-     
-    
-    
+
+	public void CreateTableModel() {
+
+
+
+		String[] columnNames = {"Nom", "Prénom", "Email", "Téléphone"};
+
+		Object[][] data = new Object[h.customers.size()][5];
+
+
+		for (int i = 0; i < h.customers.size(); i++) {
+			Customer customer = h.customers.get(i);
+			data[i][0] = customer.getLastName();
+			data[i][1] = customer.getFirstName();
+			data[i][2] = customer.getEmail();
+			data[i][3] = customer.getPhoneNumber();
+		}
+		TableModelCustomer = new DefaultTableModel(data, columnNames);
+	}
+
+	public void updateTableModel() {
+		CreateTableModel();
+		JTableCustomer.setModel(TableModelCustomer);
+		TableModelCustomer.fireTableDataChanged();
+		
+	}
+	
 }
+	
+	
+	

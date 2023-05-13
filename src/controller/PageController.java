@@ -1,35 +1,33 @@
 package controller;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import view.App;
+
 public class PageController implements ActionListener {
     
 	public CardLayout cardLayout;
-    public JPanel parent;
+    public JPanel Mutliscren;
+    public App app;
     JButton[] GroupButtons;
-    public PageController(CardLayout cardLayout, JPanel parent, JButton[] buttons) {
+    public PageController(CardLayout cardLayout, JPanel parent, JButton[] buttons, App app) {
         this.cardLayout = cardLayout;
-        this.parent = parent;
+        this.Mutliscren = parent;
         this.GroupButtons = buttons;
+        this.app = app;
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
         JButton b = (JButton)event.getSource();
-        for (JButton button : GroupButtons) {
-            if (button == b) {
-                button.setBackground(Color.gray); // ou une autre couleur de votre choix
-            } else {
-                button.setBackground(null); // ou la couleur par défaut
-            }
-        }
-        System.out.println(b.getText());
-    	cardLayout.show(parent, b.getText());
+        
+        System.out.println(b.getActionCommand());
+        app.setStatusIcon(b.getActionCommand());
+    	cardLayout.show(Mutliscren, b.getActionCommand());
     }
 }

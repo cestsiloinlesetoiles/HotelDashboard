@@ -33,6 +33,11 @@ public class Simple extends Room {
     public void setCostroom(int nprice) {
         Simple.spec_price = nprice;
     }
-    
+    @Override
+	public String getType() {
+		
+		return "Simple";
+	}
+
     
 }

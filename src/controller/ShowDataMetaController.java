@@ -14,7 +14,7 @@ public class ShowDataMetaController implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		h.ShowDataConsole();
+		h.showDataConsole();
 	}
 
 	
