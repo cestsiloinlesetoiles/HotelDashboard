@@ -16,15 +16,18 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
 
 import controller.customerP.ControllerAddingCustomer;
 import controller.customerP.ControllerDelCustomers;
@@ -55,7 +58,7 @@ public class CustomerP extends JPanel {
 
 	public CustomerP(Hotel h) {
 		this.h = h;
-
+		AddCustomertest();
         setLayout(new BorderLayout());
         ImageIcon pgIco = new ImageIcon("resources/pagelevel/3.png");
         JLabel pg = new JLabel(pgIco);
@@ -254,7 +257,76 @@ public class CustomerP extends JPanel {
                 
             }
         });
+        
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(TableModelCustomer);
+        JTableCustomer.setRowSorter(sorter);
+        
+        searchTextField.getDocument().addDocumentListener(new DocumentListener(){
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filter();
+            }
+            
+            public void filter(){
+                String filterStr = searchTextField.getText();
+                TableRowSorter<DefaultTableModel> sorter = (TableRowSorter<DefaultTableModel>) JTableCustomer.getRowSorter();
+                if(filterStr.length() == 0){
+                    sorter.setRowFilter(null);
+                }else{
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filterStr));
+                }
+            }
+        });
+
+       
+        
+        
 	}
+	
+	
+	 public void AddCustomertest() {
+		 Customer customer1 = new Customer("Ben Ali", "Mohamed", "mohamedbenali@test.com", "1234567891");
+		 h.addCustomer(customer1);
+
+		 Customer customer2 = new Customer("Dupont", "Marie", "mariedupont@test.com", "1234567892");
+		 h.addCustomer(customer2);
+
+		 Customer customer3 = new Customer("Al-Masri", "Hassan", "hassanalmasri@test.com", "1234567893");
+		 h.addCustomer(customer3);
+
+		 Customer customer4 = new Customer("Leclerc", "Sophie", "sophieleclerc@test.com", "1234567894");
+		 h.addCustomer(customer4);
+
+		 Customer customer5 = new Customer("El-Said", "Ahmed", "ahmedelsaid@test.com", "1234567895");
+		 h.addCustomer(customer5);
+
+		 Customer customer6 = new Customer("Rousseau", "Gabriel", "gabrielrousseau@test.com", "1234567896");
+		 h.addCustomer(customer6);
+
+		 Customer customer7 = new Customer("Abdelkader", "Youssef", "youssefabdelkader@test.com", "1234567897");
+		 h.addCustomer(customer7);
+
+		 Customer customer8 = new Customer("Perrin", "Lucie", "lucieperrin@test.com", "1234567898");
+		 h.addCustomer(customer8);
+
+		 Customer customer9 = new Customer("Al-Hakim", "Faisal", "faisalalhakim@test.com", "1234567899");
+		 h.addCustomer(customer9);
+
+		 Customer customer10 = new Customer("Girard", "Isabelle", "isabellegirard@test.com", "1234567810");
+		 h.addCustomer(customer10);
+
+     }
+	
 
 	public void CreateTableModel() {
 
@@ -272,12 +344,19 @@ public class CustomerP extends JPanel {
 			data[i][2] = customer.getEmail();
 			data[i][3] = customer.getPhoneNumber();
 		}
-		TableModelCustomer = new DefaultTableModel(data, columnNames);
+		TableModelCustomer = new DefaultTableModel(data, columnNames){
+	        @Override
+	        public boolean isCellEditable(int row, int column) {
+	            return false;
+	        }
+	    };;
 	}
 
 	public void updateTableModel() {
 		CreateTableModel();
 		JTableCustomer.setModel(TableModelCustomer);
+		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(TableModelCustomer);
+	    JTableCustomer.setRowSorter(sorter);
 		TableModelCustomer.fireTableDataChanged();
 		
 	}

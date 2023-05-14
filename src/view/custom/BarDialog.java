@@ -197,7 +197,12 @@ public class BarDialog extends JDialog {
 			data[i][2] = cspt.getCost();
 		}
 
-		consumptionTableModel = new DefaultTableModel(data, columnNames);
+		consumptionTableModel = new DefaultTableModel(data, columnNames){
+	        @Override
+	        public boolean isCellEditable(int row, int column) {
+	            return false;
+	        }
+	    };;
 	}
 
 	public void updateTableModel() {

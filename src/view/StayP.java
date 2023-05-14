@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import controller.stayP.ControllerCreateBilling;
+import controller.stayP.ControllerDelStay;
 import controller.stayP.PrintControllerBilling;
 import model.Customer;
 import model.GuestStay;
@@ -337,7 +338,7 @@ public class StayP extends JPanel implements Observer{
 	            }
 	        });
 		
-		
+		btnDelete.addActionListener(new ControllerDelStay(stayp));
 		
 	}
 	
@@ -366,7 +367,12 @@ public class StayP extends JPanel implements Observer{
 				}
 			}
 			
-			TableModelStay = new DefaultTableModel(data, columnNames);
+			TableModelStay = new DefaultTableModel(data, columnNames){
+		        @Override
+		        public boolean isCellEditable(int row, int column) {
+		            return false;
+		        }
+		    };;
 			
 		}
 	 

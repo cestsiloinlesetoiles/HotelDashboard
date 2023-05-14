@@ -15,6 +15,7 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,8 +25,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 
 import controller.roomP.ControllerAddingOptions;
 import controller.roomP.ControllerAddingSingleRoom;
@@ -198,13 +203,13 @@ public class RoomP extends JPanel {
 
 
 
-		JLabel searchLabel = new JLabel("Recherche:");
-		JTextField searchTextField = new JTextField(15);
+		//JLabel searchLabel = new JLabel("Recherche:");
+		//JTextField searchTextField = new JTextField(15);
 
 
 		JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		searchPanel.add(searchLabel);
-		searchPanel.add(searchTextField);
+		//searchPanel.add(searchLabel);
+		//searchPanel.add(searchTextField);
 
 		RoundedPanel buttonsPanel = new RoundedPanel();
 		buttonsPanel.setBackground(theme.SECONDARY_BACKGROUND);
@@ -219,13 +224,12 @@ public class RoomP extends JPanel {
 
 		CreateTableModel();
 		JTableRoom = new JTable(TableModelRoom);
-
-
+		
 		JScrollPane tableScrollPane = new JScrollPane(JTableRoom);
 		tableScrollPane.setPreferredSize(new Dimension(400, 300));
+		
 
-
-
+		
 		JTableHeader header = JTableRoom.getTableHeader();
 		header.setBackground(Color.decode("#232323"));
 		header.setForeground(Color.WHITE);
@@ -466,11 +470,14 @@ public class RoomP extends JPanel {
 		});
 			
 		
+		
+		
+
 	
 	} 
 
 
-
+	
 
 	public void CreateTableModel() {
 
@@ -498,7 +505,13 @@ public class RoomP extends JPanel {
 			}
 		}
 
-		TableModelRoom = new DefaultTableModel(data, columnNames);
+		TableModelRoom = new DefaultTableModel(data, columnNames){
+	        @Override
+	        public boolean isCellEditable(int row, int column) {
+	            return false;
+	        }
+	    };
+		
 
 	}
 
@@ -523,8 +536,16 @@ public class RoomP extends JPanel {
 
 			data[i][1] = options.getCost();
 		}
-		TableModelOptions = new DefaultTableModel(data, columnNames);
-
+		
+		
+		TableModelOptions = new DefaultTableModel(data, columnNames){
+	        @Override
+	        public boolean isCellEditable(int row, int column) {
+	            return false;
+	        }
+	    };
+		;
+		
 	}
 
 	public void updateTableModelOptions() {
@@ -561,6 +582,8 @@ public class RoomP extends JPanel {
 		}
 		return null;
 	}
+
+
 
 
 

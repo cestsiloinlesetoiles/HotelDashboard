@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
@@ -360,6 +361,7 @@ public class ReservationP extends JPanel implements Observer {
 		
         
         
+        
 	}
 	
 
@@ -422,7 +424,12 @@ public class ReservationP extends JPanel implements Observer {
 		        data[i][5] = status;
 			}
 		
-			TableModelReserv = new DefaultTableModel(data, columnNames);
+			TableModelReserv = new DefaultTableModel(data, columnNames){
+		        @Override
+		        public boolean isCellEditable(int row, int column) {
+		            return false;
+		        }
+		    };
 			
 		}
 	   
@@ -431,6 +438,7 @@ public class ReservationP extends JPanel implements Observer {
 		public void updateTableModel() {
 			CreateTableModel();
 			JTableReserv.setModel(TableModelReserv);
+		
 			stayP.updateTableModel();
 			TableModelReserv.fireTableDataChanged();
 		}
