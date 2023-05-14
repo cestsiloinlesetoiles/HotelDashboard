@@ -4,8 +4,8 @@ import java.util.*;
 
 public class LuxuryRoom extends Room {
 	
-	private static int spec_price;
-	private static int spec_bed;
+	public static int spec_price = 200;
+	public static int spec_bed = 1;
 	
 	private Vector<Options> listoptions;
     
@@ -26,9 +26,12 @@ public class LuxuryRoom extends Room {
     	
     	for ( Options opts  : listoptions) {
     		OptionsCost+= opts.getCost();
+    		System.out.println(" Total Opt : " + OptionsCost);
     	} 
+    	
         int totalCostRoom = spec_price +  OptionsCost;
-    	return totalCostRoom ;
+        System.out.println("RoomCost " + totalCostRoom);
+        return totalCostRoom ;
     }
 
   

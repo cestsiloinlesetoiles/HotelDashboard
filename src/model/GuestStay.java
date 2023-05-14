@@ -4,7 +4,7 @@ import java.util.*;
 
 public class GuestStay {
     
-    public int totalCost;
+    public int totalCost = 0;
     public Reservation reservation;
     public Hotel hotel;
     public Vector <Consumption> listconspt = new Vector<Consumption>();;
@@ -24,11 +24,15 @@ public class GuestStay {
     }
     
     public void calculateTotalCost() {
-
+    	int reservationCost = 0;
+    	if(reservation.getRoom()!=null) {
     	int roomCost = reservation.getRoom().getCost() ; 
+    	
     	int stayDuration = reservation.getStayDuration();
-    	int reservationCost = roomCost * stayDuration;
-
+    
+    	reservationCost = roomCost * stayDuration;
+    
+    	}
     	int consumptionCost = 0;
     	
     	for ( Consumption cspt  : listconspt) {
@@ -36,7 +40,23 @@ public class GuestStay {
     	}
     	
     	totalCost = consumptionCost + reservationCost;
+    	
     }
     
+    public Consumption getConsumptionByName(String name) {
+        for (Consumption cspt : listconspt) {
+            if (cspt.getName().equals(name)) {
+                return cspt;
+            }
+        }
+        return null; 
+    }
+
+
+	public Reservation getReservation() {
+		
+		return reservation;
+	}
+}   
+    
    
-}

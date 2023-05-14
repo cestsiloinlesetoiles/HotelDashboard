@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,17 +18,23 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import controller.stayP.ControllerCreateBilling;
+import controller.stayP.PrintControllerBilling;
 import model.Customer;
 import model.GuestStay;
 import model.Hotel;
+import model.Reservation;
+import view.custom.BarDialog;
 import view.ui.RoundedPanel;
 import view.ui.theme;
 public class StayP extends JPanel implements Observer{
@@ -36,17 +44,17 @@ public class StayP extends JPanel implements Observer{
 	public JPanel pnlMain = new JPanel();
 	public JPanel pnlPageLevel = new JPanel();
 	
-	RoundedPanel leftPanel;
-	RoundedPanel bottomRightPanel;
-	RoundedPanel topRightPanel;
+	public RoundedPanel leftPanel;
+	public RoundedPanel bottomRightPanel;
+	public RoundedPanel topRightPanel;
 	
-	JLabel stayLabel ;
-    JTextField stayTextField ;
-    JButton AddBtn;
-    JPanel invoice;
-	
-	
-	
+	public JLabel stayLabel ;
+	public JTextField stayTextField ;
+    public JButton AddBtn;
+    public JPanel invoice;
+    public JTextArea invoiceArea;
+    public JButton printButton;
+    public JButton clearButton;
 	
 	public StayP (Hotel h) {
 		
@@ -116,19 +124,19 @@ public class StayP extends JPanel implements Observer{
 
 
 
-		ImageIcon editIcon = new ImageIcon("resources/table/edit.png");
-		ImageIcon editIconActive = new ImageIcon("resources/table/editA.png");
-		JButton btnEdit = new JButton(editIcon);
-		btnEdit.setPressedIcon(editIconActive);
-		btnEdit.setContentAreaFilled(false);
-		btnEdit.setBorderPainted(false);
+		ImageIcon editIcon = new ImageIcon("resources/Autres/invoice.png");
+		ImageIcon editIconActive = new ImageIcon("resources/Autres/invoiceA.png");
+		JButton btnBilling = new JButton(editIcon);
+		btnBilling.setPressedIcon(editIconActive);
+		btnBilling.setContentAreaFilled(false);
+		btnBilling.setBorderPainted(false);
 
-		ImageIcon infoIcon = new ImageIcon("resources/table/info.png");
-		ImageIcon infoIconActive = new ImageIcon("resources/table/infoA.png");
-		JButton btnInfo = new JButton(infoIcon);
-		btnInfo.setPressedIcon(infoIconActive);
-		btnInfo.setContentAreaFilled(false);
-		btnInfo.setBorderPainted(false);
+		ImageIcon infoIcon = new ImageIcon("resources/Autres/beer.png");
+		ImageIcon infoIconActive = new ImageIcon("resources/Autres/beerA.png");
+		JButton btnBarMng = new JButton(infoIcon);
+		btnBarMng.setPressedIcon(infoIconActive);
+		btnBarMng.setContentAreaFilled(false);
+		btnBarMng.setBorderPainted(false);
 
 
 
@@ -144,8 +152,8 @@ public class StayP extends JPanel implements Observer{
 		RoundedPanel buttonsPanel = new RoundedPanel();
 		buttonsPanel.setBackground(theme.SECONDARY_BACKGROUND);
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		buttonsPanel.add(btnEdit);
-		buttonsPanel.add(btnInfo);
+		buttonsPanel.add(btnBilling);
+		buttonsPanel.add(btnBarMng);
 		buttonsPanel.add(btnDelete);
 
 
@@ -153,7 +161,7 @@ public class StayP extends JPanel implements Observer{
 
 
 
-		TableModelStay = CreateTableModel(h);
+		CreateTableModel();
 		JTableStay = new JTable(TableModelStay);
 
 
@@ -241,48 +249,139 @@ public class StayP extends JPanel implements Observer{
 		        new Font("Arial", Font.BOLD, 13), theme.BACKGROUND));
 		
 		
+		
+		
+		StayP stayp = this;
+		AddBtn.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String input = stayTextField.getText();
+		        if (!input.isEmpty()) {
+		            if (input.matches("\\d+")) {
+		                int id = Integer.parseInt(input);
+		                if (h.getReservationById(id)!= null) {
+		                    Reservation r = h.getReservationById(id);
+		                    if(h.getGuestStayById(id)==null) {
+		                    GuestStay stay = new GuestStay(r);
+		                    stay.setHotel(h);
+		                    h.guestStays.add(stay);
+		                    updateTableModel();
+		                    }
+		                    else {
+		                    	JOptionPane.showMessageDialog(stayp, "Le sejour avec l'ID spécifié existe déjà", "Erreur", JOptionPane.ERROR_MESSAGE);
+			                
+		                    }
+		                } else {
+		                    JOptionPane.showMessageDialog(stayp, "La réservation avec l'ID spécifié n'existe pas", "Erreur", JOptionPane.ERROR_MESSAGE);
+		                }
+		            } else {
+		                JOptionPane.showMessageDialog(stayp, "L'ID de réservation doit être un nombre entier", "Erreur", JOptionPane.ERROR_MESSAGE);
+		            }
+		        } else {
+		            JOptionPane.showMessageDialog(stayp, "Veuillez entrer un ID de réservation", "Erreur", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
+		});
+		
+		
+		btnBarMng.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        int selectedRow = JTableStay.getSelectedRow();
+		        if (selectedRow != -1) {
+		            
+		            int id = (int) JTableStay.getValueAt(selectedRow, 0);
+		            GuestStay stay = h.getGuestStayById(id); 
+		            
+		            BarDialog barDialog = new BarDialog(stay,stayp);
+		            barDialog.setVisible(true);
+		        } else {
+		            JOptionPane.showMessageDialog(stayp, "Veuillez sélectionner un séjour", "Erreur", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
+		});
+		
+		
+		ImageIcon clearIcon = new ImageIcon("resources/Autres/clear.png");
+		ImageIcon clearIconActive = new ImageIcon("resources/Autres/clearA.png");
+		
+		ImageIcon printIcon = new ImageIcon("resources/Autres/print.png");
+		ImageIcon printIconActive = new ImageIcon("resources/Autres/printA.png");
+		
+		invoice.setLayout(new BorderLayout());
+		JPanel buttonMenu = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		buttonMenu.setBackground(theme.BACKGROUND_PANEL);
+		
+		printButton = new JButton(printIcon);
+		printButton.setPressedIcon(printIconActive);
+		printButton.setContentAreaFilled(false);
+		printButton.setBorderPainted(false);
+		
+		clearButton = new JButton(clearIcon);
+		clearButton.setPressedIcon(clearIconActive);
+		clearButton.setContentAreaFilled(false);
+		clearButton.setBorderPainted(false);
+		
+		
+		buttonMenu.add(printButton);
+		buttonMenu.add(clearButton);
+		invoice.add(buttonMenu, BorderLayout.NORTH);	
+		invoiceArea = new JTextArea();
+		invoice.add(invoiceArea,BorderLayout.CENTER);
+		btnBilling.addActionListener(new ControllerCreateBilling(stayp));
+		printButton.addActionListener(new PrintControllerBilling(stayp));           
+		clearButton.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                invoiceArea.setText("");
+	            }
+	        });
+		
+		
+		
 	}
 	
 	
-	 public DefaultTableModel CreateTableModel(Hotel hotel) {
+	 public void CreateTableModel() {
 
 	    	String[] columnNames = {"N° Res","Date de fin","Client","Totale"}
 	    	;
 
-			Object[][] data = new Object[hotel.reservations.size()][5];
+			Object[][] data = new Object[h.guestStays.size()][5];
 
-			for (int i = 0; i < hotel.guestStays.size(); i++) {
-				GuestStay stay = hotel.guestStays.get(i);
-
+			for (int i = 0; i < h.guestStays.size(); i++) {
+				GuestStay stay = h.guestStays.get(i);
 				data[i][0] = stay.reservation.getId(); 
 				data[i][1] = stay.reservation.getDateEnd().toString();
-				
-				
-				
+				stay.calculateTotalCost();
+				data[i][3] = stay.totalCost; 
+	
 				Customer c = stay.reservation.getCustomer();
 				if(c==null){
-					data[i][2] = "Aucune Client associer";
+					data[i][2] = "N/A";
 				}
 				else {
 					data[i][2] = c.getFirstName()+" "+ c.getLastName();
 					
 				}
 			}
-		
-			DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
-			return tableModel;
+			
+			TableModelStay = new DefaultTableModel(data, columnNames);
+			
 		}
 	 
-	 public void updateTableModel(Hotel hotel) {
-			TableModelStay = CreateTableModel(hotel);
+	 public void updateTableModel() {
+			CreateTableModel();
 			JTableStay.setModel(TableModelStay);
+		
 			TableModelStay.fireTableDataChanged();
 		}
 
-
+	 
+	 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		updateTableModel();
 		
 	}
 

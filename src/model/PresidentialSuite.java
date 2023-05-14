@@ -4,8 +4,8 @@ import java.util.Vector;
 
 public class PresidentialSuite extends Room {
 	
-	private static int spec_price;
-	private static int spec_bed;
+	public static int spec_price = 500 ;
+	public static int spec_bed = 2;
 	
     public Vector<Options> listoptions;
 

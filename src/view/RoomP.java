@@ -71,7 +71,7 @@ public class RoomP extends JPanel {
 	public JTextField optionPriceTextField;
 
 
-	public RoomP(Hotel h) {
+	public RoomP(Hotel h, StayP stay) {
 		this.h = h;
 		setLayout(new BorderLayout());
 
@@ -438,6 +438,7 @@ public class RoomP extends JPanel {
 				int num =  (int) r.JTableRoom.getValueAt(selectedRow, 1);
 				Room room = r.h.getRoom(floor, num);
 				new EditRoomDialog(room, r);
+				stay.updateTableModel();
 				}
 				else {
 					JOptionPane.showMessageDialog(r, "Aucune ligne sélectionnée dans la liste des chambres.", "Information", JOptionPane.INFORMATION_MESSAGE);

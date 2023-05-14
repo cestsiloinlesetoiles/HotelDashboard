@@ -2,8 +2,8 @@ package model;
 import java.util.*;
 
 public class Simple extends Room {
-	private static int spec_price; 
-    private static int spec_bed;
+	public static int spec_price = 60; 
+    public static int spec_bed = 1;
     //"seteur et getter de class"
     
     public Simple(int num, int floor) {

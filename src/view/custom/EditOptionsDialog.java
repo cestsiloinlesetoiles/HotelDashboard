@@ -10,10 +10,12 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import model.Options;
 import view.RoomP;
@@ -26,7 +28,7 @@ public class EditOptionsDialog extends JDialog {
     public EditOptionsDialog(RoomP r, Options opt) {
         setTitle("Modifier les options");
         setModal(true);
-        setLocationRelativeTo(r);
+        setLocationRelativeTo((JFrame) SwingUtilities.getWindowAncestor(r));
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));

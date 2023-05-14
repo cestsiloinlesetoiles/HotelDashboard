@@ -4,8 +4,8 @@ import java.util.*;
 
 public class DoubleRoom extends Room {
 
-    private static int spec_bed;
-	private static int spec_price;
+    public static int spec_bed = 2;
+	public static int spec_price = 120;
 
 	///Default constructor
     public DoubleRoom(int num, int floor) {

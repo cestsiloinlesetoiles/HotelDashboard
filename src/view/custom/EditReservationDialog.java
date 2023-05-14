@@ -10,9 +10,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
@@ -35,8 +37,8 @@ public class EditReservationDialog extends JDialog {
         
     	setTitle("Modifier les reservations");
         setModal(true);
-        setLocationRelativeTo(Rview);
-
+        
+        setLocationRelativeTo((JFrame) SwingUtilities.getWindowAncestor(Rview));
         this.Rview = Rview;
         FillRoomComboBox();
         FillCustomerComboBox(); 

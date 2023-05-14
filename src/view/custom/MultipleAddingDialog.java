@@ -7,9 +7,11 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import controller.roomP.ControllerAddMultiRooms;
 import model.Hotel;
@@ -27,12 +29,13 @@ public class MultipleAddingDialog extends JDialog {
     public MultipleAddingDialog(RoomP r) {
     	this.h = r.h;
     	this.r = r;
-    	setModal(true);
+ 
     	setTitle("Ajout de chambres multiples");
         setModal(true);
         setLayout(new GridBagLayout());
+        setLocationRelativeTo((JFrame) SwingUtilities.getWindowAncestor(r));
         setSize(400, 300);
-        setLocationRelativeTo(r); 
+        
         
         JPanel contentPanel = new JPanel(new GridBagLayout());
 

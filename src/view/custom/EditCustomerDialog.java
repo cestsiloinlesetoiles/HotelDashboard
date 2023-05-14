@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import model.Customer;
 import view.CustomerP;
@@ -28,8 +29,7 @@ public class EditCustomerDialog extends JDialog {
 		
 		setTitle("Modifier les informations du client");
         setModal(true);
-        setLocationRelativeTo(c);
-		
+        setLocationRelativeTo((JFrame) SwingUtilities.getWindowAncestor(c));
 		
 		
 		this.c = c;

@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -36,7 +37,8 @@ public class EditRoomDialog extends JDialog {
     public EditRoomDialog(Room room, RoomP r) {
     	setTitle("Modifier Chambre");
         setModal(true);
-        setLocationRelativeTo(r);
+  
+        setLocationRelativeTo((JFrame) SwingUtilities.getWindowAncestor(r));
     	this.room = room;
         this.r = r;
         

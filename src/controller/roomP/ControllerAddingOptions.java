@@ -7,14 +7,15 @@ import javax.swing.JOptionPane;
 
 import model.Options;
 import view.RoomP;
+import view.StayP;
 
 public class ControllerAddingOptions implements ActionListener {
 
 	 public RoomP r;
-	
+	 public StayP stayP;
 	public ControllerAddingOptions(RoomP roomP) {
 		r = roomP;
-		
+
 	}
 
     @Override

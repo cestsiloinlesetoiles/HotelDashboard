@@ -61,10 +61,10 @@ public class ReservationP extends JPanel implements Observer {
 	public JComboBox<String> roomComboBox;
 	public JTextField firstName;
 	public JTextField lastName; 
-
-	public ReservationP(Hotel h) {
+	public StayP stayP;
+	public ReservationP(Hotel h, StayP stayP) {
 		this.h = h;
-		
+		this.stayP =stayP;
 		
 		// Mise en place du Pagelevel et du cadran Main
 		
@@ -431,6 +431,7 @@ public class ReservationP extends JPanel implements Observer {
 		public void updateTableModel() {
 			CreateTableModel();
 			JTableReserv.setModel(TableModelReserv);
+			stayP.updateTableModel();
 			TableModelReserv.fireTableDataChanged();
 		}
 		

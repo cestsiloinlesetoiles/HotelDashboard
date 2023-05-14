@@ -19,7 +19,22 @@ public class Hotel extends Observable {
 		this.name = name;
 		this.address = address;
 	}
-
+	
+	public void setAddr(String addr) {
+		this.address = addr;
+		
+		setChanged();
+        notifyObservers();
+	}
+	
+	
+	public void setName(String name) {
+		this.name = name;
+		
+		setChanged();
+        notifyObservers();
+	}
+	
 	public void addCustomer(Customer customer) {
 		customer.setHotel(this);
 		customers.add((customer));
@@ -183,71 +198,19 @@ public class Hotel extends Observable {
 	    }
 	    return null;
 	}
-	
-	
 
-	public void showDataConsole() {
-	    System.out.println("-----Customers List-----");
-	    System.out.println("| ID | Last Name | First Name | Reservations |");
-	    System.out.println("----------------------------------------------");
-	    for (int i = 0; i < customers.size(); i++) {
-	        Customer customer = customers.get(i);
-	        List<Reservation> customerReservations = customer.getListrsv_current_customer();
-	        StringBuilder reservations = new StringBuilder();
-	        for (Reservation reservation : customerReservations) {
-	            reservations.append(reservation.getId()).append(", ");
+	public GuestStay getGuestStayById(int id) {
+	    for (GuestStay guestStay : guestStays) {
+	        if (guestStay.getReservation().getId() == id) {
+	            return guestStay;
 	        }
-	        if (reservations.length() > 0) {
-	            reservations.setLength(reservations.length() - 2); // Remove the last comma and space
-	        }
-	        System.out.printf("| %-2d | %-9s | %-10s | %-12s |%n", i, customer.getLastName(), customer.getFirstName(),
-	                reservations.toString());
 	    }
-	    System.out.println("----------------------------------------------");
-
-	    System.out.println("\n-----Rooms List-----");
-	    System.out.println("| Room Number | Floor | Type     | Reservations |");
-	    System.out.println("------------------------------------------------");
-	    for (int i = 0; i < rooms.size(); i++) {
-	        Room room = rooms.get(i);
-	        String roomType = "";
-	        if (room instanceof DoubleRoom) {
-	            roomType = "Double";
-	        } else if (room instanceof LuxuryRoom) {
-	            roomType = "Luxury";
-	        } else if (room instanceof PresidentialSuite) {
-	            roomType = "Presidential";
-	        } else if (room instanceof Simple) {
-	            roomType = "Simple";
-	        }
-	        List<Reservation> roomReservations = room.reservations;
-	        StringBuilder reservations = new StringBuilder();
-	        for (Reservation reservation : roomReservations) {
-	            reservations.append(reservation.getId()).append(", ");
-	        }
-	        if (reservations.length() > 0) {
-	            reservations.setLength(reservations.length() - 2); // Remove the last comma and space
-	        }
-	        System.out.printf("| %-11d | %-5d | %-8s | %-12s |%n", room.getNum(), room.getFloor(), roomType,
-	                reservations.toString());
-	    }
-	    System.out.println("------------------------------------------------");
-
-	    System.out.println("\n-----Reservations List-----");
-	    System.out.println("| ID | Room Number | Client Name | Check-in Date | Check-out Date |");
-	    System.out.println("-----------------------------------------------------------------");
-	    for (Reservation reservation : reservations) {
-	        int roomId = (reservation.getRoom() != null) ? reservation.getRoom().getNum() : -1;
-	        String clientName = (reservation.getCustomer() != null) ? reservation.getCustomer().getLastName() + " " +
-	                reservation.getCustomer().getFirstName() : "N/A";
-	        System.out.printf("| %-2d | %-11d | %-11s | %-13s | %-14s |%n", reservation.getId(), roomId, clientName,
-	                reservation.getDateStart().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-	                reservation.getDateEnd().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-	    }
-	    System.out.println("-----------------------------------------------------------------");
+	    return null;
 	}
-
 	
+		
+
+
 	
 	
 }

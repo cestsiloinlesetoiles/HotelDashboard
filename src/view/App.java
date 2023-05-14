@@ -5,6 +5,8 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -15,14 +17,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 
 import controller.PageController;
-import controller.ShowDataMetaController;
 import model.Hotel;
+import view.custom.SettingDiag;
 import view.ui.theme;
 
 public class App extends JFrame {
@@ -66,10 +69,10 @@ public class App extends JFrame {
 		this.hotel = hotel;
 		setBackground(theme.BACKGROUND);
 		Overview = new OverviewP(hotel);
-		RoomManager = new RoomP(hotel);
 		CustomerManager = new CustomerP(hotel);
-		ReservationManager = new ReservationP(hotel);
 		StayManager = new StayP(hotel);
+		ReservationManager = new ReservationP(hotel,StayManager);
+		RoomManager = new RoomP(hotel,StayManager);
 		hotel.addObserver(ReservationManager);
 		
 		
@@ -119,16 +122,14 @@ public class App extends JFrame {
         
         Color buttonBackground = theme.BACKGROUND;
         
-        ShowDataMetaController sd = new ShowDataMetaController(hotel);
-		JButton Demo = new JButton("t");
-		
-		
-		Demo.addActionListener(sd);
-		ImageIcon inactiveIcon = new ImageIcon("resources/Autres/Data.png");
-		Demo.setIcon(inactiveIcon);
-		ImageIcon activeIcon = new ImageIcon("resources/Autres/DataA.png");
-		Demo.setPressedIcon(activeIcon);
-		GroupButtons[5] = Demo;
+        
+		JButton settings = new JButton();
+	
+		ImageIcon inactiveIcon = new ImageIcon("resources/setting.png");
+		settings.setIcon(inactiveIcon);
+		ImageIcon activeIcon = new ImageIcon("resources/settingA.png");
+		settings.setPressedIcon(activeIcon);
+		GroupButtons[5] = settings;
 		
         for (JButton button : GroupButtons) {
         	
@@ -149,7 +150,7 @@ public class App extends JFrame {
 		btnReservationManager.addActionListener(pgc);
 		btnStayManager.addActionListener(pgc);
 		
-		Demo.setHorizontalAlignment(SwingConstants.CENTER);
+		settings.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel titleLabel = new JLabel("");
 		titleLabel.setFont(new Font("Arial", Font.BOLD, 15));
 		titleLabel.setForeground(theme.SECONDARY_TEXT);
@@ -170,7 +171,7 @@ public class App extends JFrame {
 		Menu.add(Box.createRigidArea(new Dimension(0, 60)));
 		Menu.setBackground(Color.decode("#232323"));
 		Menu.add(Box.createVerticalGlue());
-		Menu.add(Demo);
+		Menu.add(settings);
 
         
 		
@@ -182,6 +183,19 @@ public class App extends JFrame {
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(MultiScreen, BorderLayout.CENTER);
 		getContentPane().add(Menu, BorderLayout.WEST);
+		App app = this;
+		
+		settings.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new SettingDiag((JFrame) SwingUtilities.getWindowAncestor(app), hotel);
+				
+			}
+		});
+			
+		
+		
 	}
 	
 	
@@ -241,8 +255,10 @@ public class App extends JFrame {
 			e.printStackTrace();
 		}
 		
-		Hotel hotel = new Hotel("Fanti", "28 rue Parisien");
+		Hotel hotel = new Hotel("N/A", "N/A");
 		App frame = new App(hotel);
+		frame.setTitle("HotelCopilot.io");
+	    frame.setStatusIcon("Overview");
 		frame.setMinimumSize(new Dimension(1024 ,800));
 		frame.setResizable(true);
 		frame.setVisible(true);
