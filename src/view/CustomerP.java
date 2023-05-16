@@ -60,7 +60,7 @@ public class CustomerP extends JPanel {
 		this.h = h;
 		AddCustomertest();
         setLayout(new BorderLayout());
-        ImageIcon pgIco = new ImageIcon("resources/pagelevel/3.png");
+        ImageIcon pgIco = new ImageIcon(getClass().getResource("/resources/pagelevel/3.png"));
         JLabel pg = new JLabel(pgIco);
         pg.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         pnlPageLevel.setLayout(new BoxLayout(pnlPageLevel, BoxLayout.Y_AXIS));
@@ -124,22 +124,22 @@ public class CustomerP extends JPanel {
 
       
 
-        ImageIcon editIcon = new ImageIcon("resources/table/edit.png");
-        ImageIcon editIconActive = new ImageIcon("resources/table/editA.png");
+        ImageIcon editIcon = new ImageIcon(getClass().getResource("/resources/table/edit.png"));
+        ImageIcon editIconActive = new ImageIcon(getClass().getResource("/resources/table/editA.png"));
         JButton btnEdit = new JButton(editIcon);
         btnEdit.setPressedIcon(editIconActive);
         btnEdit.setContentAreaFilled(false);
         btnEdit.setBorderPainted(false);
 
-        ImageIcon infoIcon = new ImageIcon("resources/table/info.png");
-        ImageIcon infoIconActive = new ImageIcon("resources/table/infoA.png");
+        ImageIcon infoIcon = new ImageIcon(getClass().getResource("/resources/table/info.png"));
+        ImageIcon infoIconActive = new ImageIcon(getClass().getResource("/resources/table/infoA.png"));
         JButton btnInfo = new JButton(infoIcon);
         btnInfo.setPressedIcon(infoIconActive);
         btnInfo.setContentAreaFilled(false);
         btnInfo.setBorderPainted(false);
 
-        ImageIcon deleteIcon = new ImageIcon("resources/table/delete.png");
-        ImageIcon deleteIconActive = new ImageIcon("resources/table/deleteA.png");
+        ImageIcon deleteIcon = new ImageIcon(getClass().getResource("/resources/table/delete.png"));
+        ImageIcon deleteIconActive = new ImageIcon(getClass().getResource("/resources/table/deleteA.png"));
         JButton btnDelete = new JButton(deleteIcon);
         btnDelete.setPressedIcon(deleteIconActive);
         btnDelete.setContentAreaFilled(false);

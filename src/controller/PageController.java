@@ -14,11 +14,11 @@ public class PageController implements ActionListener {
 	public CardLayout cardLayout;
     public JPanel Mutliscren;
     public App app;
-    JButton[] GroupButtons;
-    public PageController(CardLayout cardLayout, JPanel parent, JButton[] buttons, App app) {
+    
+    public PageController(CardLayout cardLayout, JPanel parent, App app) {
         this.cardLayout = cardLayout;
         this.Mutliscren = parent;
-        this.GroupButtons = buttons;
+    
         this.app = app;
     }
 

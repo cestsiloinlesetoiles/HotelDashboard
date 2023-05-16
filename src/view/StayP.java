@@ -62,7 +62,7 @@ public class StayP extends JPanel implements Observer{
 		this.h = h;
 		// Mise en place du Pagelevel et du cadran Main
 		setLayout(new BorderLayout());
-		ImageIcon pgIco = new ImageIcon("resources/pagelevel/5.png");
+		ImageIcon pgIco = new ImageIcon(getClass().getResource("/resources/pagelevel/5.png"));
 		JLabel pg = new JLabel(pgIco);
 		pg.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
 		pnlPageLevel.setLayout(new BoxLayout(pnlPageLevel, BoxLayout.Y_AXIS));
@@ -125,15 +125,15 @@ public class StayP extends JPanel implements Observer{
 
 
 
-		ImageIcon editIcon = new ImageIcon("resources/Autres/invoice.png");
-		ImageIcon editIconActive = new ImageIcon("resources/Autres/invoiceA.png");
+		ImageIcon editIcon = new ImageIcon(getClass().getResource("/resources/Autres/invoice.png"));
+		ImageIcon editIconActive = new ImageIcon(getClass().getResource("/resources/Autres/invoiceA.png"));
 		JButton btnBilling = new JButton(editIcon);
 		btnBilling.setPressedIcon(editIconActive);
 		btnBilling.setContentAreaFilled(false);
 		btnBilling.setBorderPainted(false);
 
-		ImageIcon infoIcon = new ImageIcon("resources/Autres/beer.png");
-		ImageIcon infoIconActive = new ImageIcon("resources/Autres/beerA.png");
+		ImageIcon infoIcon = new ImageIcon(getClass().getResource("/resources/Autres/beer.png"));
+		ImageIcon infoIconActive = new ImageIcon(getClass().getResource("/resources/Autres/beerA.png"));
 		JButton btnBarMng = new JButton(infoIcon);
 		btnBarMng.setPressedIcon(infoIconActive);
 		btnBarMng.setContentAreaFilled(false);
@@ -141,8 +141,8 @@ public class StayP extends JPanel implements Observer{
 
 
 
-		ImageIcon deleteIcon = new ImageIcon("resources/table/delete.png");
-		ImageIcon deleteIconActive = new ImageIcon("resources/table/deleteA.png");
+		ImageIcon deleteIcon = new ImageIcon(getClass().getResource("/resources/table/delete.png"));
+		ImageIcon deleteIconActive = new ImageIcon(getClass().getResource("/resources/table/deleteA.png"));
 		JButton btnDelete = new JButton(deleteIcon);
 		btnDelete.setPressedIcon(deleteIconActive);
 		btnDelete.setContentAreaFilled(false);
@@ -303,11 +303,11 @@ public class StayP extends JPanel implements Observer{
 		});
 		
 		
-		ImageIcon clearIcon = new ImageIcon("resources/Autres/clear.png");
-		ImageIcon clearIconActive = new ImageIcon("resources/Autres/clearA.png");
+		ImageIcon clearIcon = new ImageIcon(getClass().getResource("/resources/Autres/clear.png"));
+		ImageIcon clearIconActive = new ImageIcon(getClass().getResource("/resources/Autres/clearA.png"));
 		
-		ImageIcon printIcon = new ImageIcon("resources/Autres/print.png");
-		ImageIcon printIconActive = new ImageIcon("resources/Autres/printA.png");
+		ImageIcon printIcon = new ImageIcon(getClass().getResource("/resources/Autres/print.png"));
+		ImageIcon printIconActive = new ImageIcon(getClass().getResource("/resources/Autres/printA.png"));
 		
 		invoice.setLayout(new BorderLayout());
 		JPanel buttonMenu = new JPanel(new FlowLayout(FlowLayout.RIGHT));
