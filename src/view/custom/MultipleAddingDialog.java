@@ -29,7 +29,7 @@ public class MultipleAddingDialog extends JDialog {
     public MultipleAddingDialog(RoomP r) {
     	this.h = r.h;
     	this.r = r;
- 
+        // Structure  classique : 
     	setTitle("Ajout de chambres multiples");
         setModal(true);
         setLayout(new GridBagLayout());
@@ -99,6 +99,7 @@ public class MultipleAddingDialog extends JDialog {
         contentPanel.add(txtCapacityPerFloor, gbc);
 
         JButton btnSave = new JButton("Enregistrer");
+        
         btnSave.addActionListener(new ControllerAddMultiRooms(r,this));
         JButton btnCancel = new JButton("Annuler");
 

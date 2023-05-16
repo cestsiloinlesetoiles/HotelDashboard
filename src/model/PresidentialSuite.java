@@ -13,11 +13,10 @@ public class PresidentialSuite extends Room {
     	super(num,floor);
     	this.setPrice(spec_price);
         this.setBeds(spec_bed);
-        // list vide d'options
         this.listoptions = new Vector<>();
     }
     
-    //Setup mes attribut de classes
+    
     public Vector<Options> getListOptions() {
     	return listoptions;
     }
@@ -41,7 +40,7 @@ public class PresidentialSuite extends Room {
         return spec_bed;
     }
     
-    //Setup mes attribut de classes
+
     
     public void setNbrOfbeds(int nbeds) {
     	PresidentialSuite.spec_bed = nbeds;

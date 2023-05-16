@@ -76,24 +76,33 @@ public class EditRoomDialog extends JDialog {
         panel.add(txtRoomNumber, gbc);
 
         contentPanel.add(panel);
-        
+        // on verifie si la chambre est une suite presidentielle ou une chambre de luxe 
+        // vue dynamique des options en fonction du type de chambre et affichage des options deja selectionnées
         if (room instanceof PresidentialSuite || room instanceof LuxuryRoom) {
-        	checkBoxes = new Vector<JCheckBox>();
+        	
+            checkBoxes = new Vector<JCheckBox>();
             JPanel panelCheckBox = new JPanel(new GridBagLayout());
             GridBagConstraints checkBoxGbc = new GridBagConstraints();
             checkBoxGbc.insets = new Insets(5, 5, 5, 5);
             int Totcolumns = 3; 
             int currentColumn = 0;
             int currentRow = 0;
-         
+
+          
             int i = 0;
+
+            // on parcourt les options pour afficher les options deja selectionnées
             while (i < r.optionsVector.size()) {
-            	 	checkBoxGbc.gridx = currentColumn;
-            	    checkBoxGbc.gridy = currentRow;
-                Options opt = r.optionsVector.get(i);
-                JCheckBox checkBox = new JCheckBox(opt.name);
+
+            	// on affiche les options en 3 colonnes 
+                checkBoxGbc.gridx = currentColumn;
+            	checkBoxGbc.gridy = currentRow;
                 
+                    Options opt = r.optionsVector.get(i);
+                // on cree un checkbox pour chaque option
+                    JCheckBox checkBox = new JCheckBox(opt.name);
                 
+                // si la chambre est une suite presidentielle on coche la case si l'option est deja presente dans la liste des options de la chambre
                 if (room instanceof PresidentialSuite) {
                     PresidentialSuite presidentialSuite = (PresidentialSuite) room;
                     if (presidentialSuite.optionExists(opt.name)) {
@@ -101,7 +110,7 @@ public class EditRoomDialog extends JDialog {
                     }
                 }
 
-               
+               // si la chambre est une chambre de luxe on coche la case si l'option est deja presente dans la liste des options de la chambre.
                 if (room instanceof LuxuryRoom && !(room instanceof PresidentialSuite)) {
                     LuxuryRoom luxaryRoom = (LuxuryRoom) room;
                     if (luxaryRoom.optionExists(opt.name)) {
@@ -112,8 +121,13 @@ public class EditRoomDialog extends JDialog {
                 
                 checkBoxes.add(checkBox);
                 
+                
                 panelCheckBox.add(checkBox, checkBoxGbc);
+                
+                // La magie des 3 colonnes
                 currentColumn++;
+
+                // si on arrive a la 3eme colonne on passe a la ligne suivante
                 if (currentColumn >= Totcolumns) {
                     currentColumn = 0;
                     currentRow++;
@@ -135,14 +149,14 @@ public class EditRoomDialog extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+                // methodes pour recuperer les options selectionnées
 				initSelectedCheckBoxNames();
 				if((txtFloor.getText().isEmpty())||(txtRoomNumber.getText().isEmpty())) {
 					JOptionPane.showMessageDialog(r, "Veuillez remplir tous les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
 					
 					return;
 				}
-				
+				// on verifie si les champs sont des nombres
 				else if(!txtFloor.getText().matches("\\d+")&&!txtFloor.getText().matches("\\d+")) {
 		        	JOptionPane.showMessageDialog(r, "Veuillez entrer des nombres valides pour le prix", "Erreur", JOptionPane.ERROR_MESSAGE);
 		        
@@ -151,11 +165,12 @@ public class EditRoomDialog extends JDialog {
 				else {
 					int floor = Integer.parseInt(txtFloor.getText());
 					int roomNumber = Integer.parseInt(txtRoomNumber.getText());
-					
+					// on verifie si la chambre existe deja et si elle est differente de la chambre qu'on veut modifier
 					 if (r.h.isRoomExist(floor, roomNumber) && (floor != room.getFloor() || roomNumber != room.getNum())) {
 						 JOptionPane.showMessageDialog(d, "Cet emplacement est déjà occupé, veuillez sélectionner un autre emplacement.",
 			                        "Erreur d'emplacement", JOptionPane.ERROR_MESSAGE);
 			         }
+                     // appelique la modification
 					 else {
 						 	room.setFloor(floor);
 							room.setNum(roomNumber);
@@ -215,7 +230,7 @@ public class EditRoomDialog extends JDialog {
         setVisible(true);
     }
     
-    
+    // on recupere les options selectionnées
     public void initSelectedCheckBoxNames() {
 
         for (JCheckBox checkBox : checkBoxes) {

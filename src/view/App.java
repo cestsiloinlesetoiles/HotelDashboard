@@ -31,46 +31,47 @@ import view.ui.theme;
 public class App extends JFrame {
 
 
-	JPanel Menu;
-	JPanel MultiScreen;
-	OverviewP Overview;
-	RoomP RoomManager;
-	CustomerP CustomerManager;
-	ReservationP ReservationManager;
-	StayP StayManager;
-	CardLayout CdL = new CardLayout();
-	Hotel hotel;
-	JButton[] GroupButtons = new JButton[6];
+	public JPanel Menu;
+	public JPanel MultiScreen;
+	public OverviewP Overview;
+	public RoomP RoomManager;
+	public CustomerP CustomerManager;
+	public ReservationP ReservationManager;
+	public StayP StayManager;
+	public CardLayout CdL = new CardLayout();
+	public Hotel hotel;
+	public JButton[] GroupButtons = new JButton[6];
 	
-	JButton btnOverview;
-	JButton btnRoomManager;
-	JButton btnCustomerManager;
-	JButton btnReservationManager;
-	JButton btnStayManager;
+	public JButton btnOverview;
+	public JButton btnRoomManager;
+	public JButton btnCustomerManager;
+	public JButton btnReservationManager;
+	public JButton btnStayManager;
 
 	//Ajout des icones pour les boutons du menu getRessource permet de recuperer les images dans le dossier resources issue avec l'excutable. 
-	ImageIcon overviewIconA = new ImageIcon(getClass().getResource("/resources/overviewIconA.png"));
-	ImageIcon overviewIcon = new ImageIcon(getClass().getResource("/resources/overviewIcon.png"));
+	public ImageIcon overviewIconA = new ImageIcon(getClass().getResource("/resources/overviewIconA.png"));
+	public ImageIcon overviewIcon = new ImageIcon(getClass().getResource("/resources/overviewIcon.png"));
 
-	ImageIcon roomManagerIconA = new ImageIcon(getClass().getResource("/resources/roomManagerIconA.png"));
-	ImageIcon roomManagerIcon = new ImageIcon(getClass().getResource("/resources/roomManagerIcon.png"));
+	public ImageIcon roomManagerIconA = new ImageIcon(getClass().getResource("/resources/roomManagerIconA.png"));
+	public ImageIcon roomManagerIcon = new ImageIcon(getClass().getResource("/resources/roomManagerIcon.png"));
 
-	ImageIcon customerManagerIconA = new ImageIcon(getClass().getResource("/resources/customerManagerIconA.png"));
-	ImageIcon customerManagerIcon = new ImageIcon(getClass().getResource("/resources/customerManagerIcon.png"));
+	public ImageIcon customerManagerIconA = new ImageIcon(getClass().getResource("/resources/customerManagerIconA.png"));
+	public ImageIcon customerManagerIcon = new ImageIcon(getClass().getResource("/resources/customerManagerIcon.png"));
 
-	ImageIcon reservationManagerIconA = new ImageIcon(getClass().getResource("/resources/reservationManagerIconA.png"));
-	ImageIcon reservationManagerIcon = new ImageIcon(getClass().getResource("/resources/reservationManagerIcon.png"));
+	public ImageIcon reservationManagerIconA = new ImageIcon(getClass().getResource("/resources/reservationManagerIconA.png"));
+	public ImageIcon reservationManagerIcon = new ImageIcon(getClass().getResource("/resources/reservationManagerIcon.png"));
 
-	ImageIcon stayManagerIconA = new ImageIcon(getClass().getResource("/resources/stayManagerIconA.png"));
-	ImageIcon stayManagerIcon = new ImageIcon(getClass().getResource("/resources/stayManagerIcon.png"));
-
+	public ImageIcon stayManagerIconA = new ImageIcon(getClass().getResource("/resources/stayManagerIconA.png"));
+	public ImageIcon stayManagerIcon = new ImageIcon(getClass().getResource("/resources/stayManagerIcon.png"));
+	public ImageIcon icone = new ImageIcon(getClass().getResource("/resources/ico.png"));
 
 	
 	
 	public App(Hotel hotel) {
 		this.hotel = hotel;
 		setBackground(theme.BACKGROUND);
-
+		
+		setIconImage(icone.getImage());
 		//Different panel pour chaque onglet du menu
 		
 		Overview = new OverviewP(hotel);
@@ -167,7 +168,7 @@ public class App extends JFrame {
 	
 		
 		
-	
+		// Ajout des boutons dans le menu et ajout d'un espace entre chaque bouton et ajout d'un espace en haut et en bas du menu
 		Menu.add(Box.createVerticalGlue());
 		Menu.add(btnOverview);
 		Menu.add(Box.createRigidArea(new Dimension(0, 60)));
@@ -187,14 +188,18 @@ public class App extends JFrame {
 		
 		
 		
-		
+		// Ajout des panels dans la fenetre;
+
 		getContentPane().setLayout(new BorderLayout());
-	
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(MultiScreen, BorderLayout.CENTER);
 		getContentPane().add(Menu, BorderLayout.WEST);
-		App app = this;
 		
+		
+		App app = this;
+
+		// Certain Action Listener sont coder dans les classes par des soucis de praticité
+		// Ici on ajoute un action listener pour le bouton settings qui ouvre une fenetre de parametre
 		settings.addActionListener( new ActionListener() {
 			
 			@Override
@@ -204,14 +209,17 @@ public class App extends JFrame {
 			}
 		});
 			
+
+
 		
 		
 	}
 	
-	
+	// Methode pour modifier l'aspect du bouton actif et inactif
 	public void setStatusIcon(String actionCommand) {
 	    switch (actionCommand) {
-	        case "Overview":
+			// Si le bouton est actif on lui met l'icone actif et les autres inactif
+			case "Overview":
 	            btnOverview.setIcon(overviewIconA);
 	            btnRoomManager.setIcon(roomManagerIcon);
 	            btnReservationManager.setIcon(reservationManagerIcon);
@@ -259,19 +267,29 @@ public class App extends JFrame {
 	
 
 	public static void main(String[] args) {
+		/*  Modification du style de l'application avec le theme FlatArcIJTheme librairie FlatLaf
+		https://www.formdev.com/flatlaf/*/ 
+		
+		
 		try {
+		
 			UIManager.setLookAndFeel(new FlatArcIJTheme());
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
 		
+	
 		Hotel hotel = new Hotel("N/A", "N/A");
 		App frame = new App(hotel);
-		frame.setTitle("HotelCopilot.io");
-	    frame.setStatusIcon("Overview");
+
+		
+		frame.setTitle("MaSuperApplication.io");
+	    // On ce place par defaut sur l'onglet Overview avec overviewIconA
+		frame.setStatusIcon("Overview");
 		frame.setMinimumSize(new Dimension(1024 ,800));
-		frame.setResizable(true);
+		frame.pack();
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}

@@ -40,6 +40,7 @@ public class EditReservationDialog extends JDialog {
         
         setLocationRelativeTo((JFrame) SwingUtilities.getWindowAncestor(Rview));
         this.Rview = Rview;
+        // remplir les combobox avec les clients et les chambres pour la selection;
         FillRoomComboBox();
         FillCustomerComboBox(); 
         
@@ -116,32 +117,38 @@ public class EditReservationDialog extends JDialog {
         endDate.setDate(r.getDateEnd());
 
         saveButton = new JButton("Confirmer");
-        
+        // sauvegarder les changements
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	
             	if(customerComboBox.getSelectedItem()!=null) {
             		String SelectedName = customerComboBox.getSelectedItem().toString();
-            		String[] Fullname = SelectedName.split(" ");
+            		// on a besoin de séparer le nom et le prénom pour pouvoir chercher le client dans la liste des clients
+                    String[] Fullname = SelectedName.split(" ");
             		String FirstName = Fullname[1];
             		String LastName = Fullname[0];
-            		Customer newc = Rview.h.CheckIn(FirstName, LastName);
-            		if(r.customer!=null) {
-            		Customer c = r.getCustomer();
-            			if(c.getLastName()!=LastName||c.getFirstName()!=FirstName) {
-            			
-            			
-            			c.getListrsv_current_customer().add(r);
-            			newc.addReservation(r);
-            			r.setCustomer(newc);	
-            			}
-            		}
-            		else {
-            			newc.addReservation(r);
-            			r.setCustomer(newc);
-            		}
+                    Customer newc = Rview.h.CheckIn(FirstName, LastName);
+                    
+                    // si newc est null, ça veut dire que le client n'existe pas dans la liste des clients Note c'est impossible d'arriver à ce cas juste j'ai oublier de le supprimer
+                    if(newc != null) {
+                        // si le client n'est pas le même que celui de la réservation, on doit changer le client de la réservation
+                        if(r.getCustomer()!=null) {
+                        
+                            Customer c = r.getCustomer();
+                            if(c.getLastName()!=LastName||c.getFirstName()!=FirstName) {
+                                // on doit supprimer la réservation de la liste des réservations du client actuel et l'ajouter à la liste des réservations du nouveau client
+                                c.getListrsv_current_customer().remove(r);
+                                newc.addReservation(r);
+                                r.setCustomer(newc);	
+                            }
+                        }
+                        // si le client est null, ça veut dire que la réservation n'a pas de client, donc on doit ajouter le client à la réservation
+                        else {
+                            newc.addReservation(r);
+                            r.setCustomer(newc);
+                        }
             		
-            	}
+            	} }
             	
             	
             	if(roomComboBox.getSelectedItem()!=null) {
@@ -150,28 +157,29 @@ public class EditReservationDialog extends JDialog {
             	    int floor = Integer.parseInt(roomDetails[0]);
             	    int num = Integer.parseInt(roomDetails[1]);
             	    Room newRoom = Rview.h.getRoom(floor, num);
-            	    
-            	    if (newRoom.CheckisFree(startDate.getDate(), endDate.getDate())) {
-            	    if(r.room !=null) {
-            	    Room room = r.getRoom() ;
-            	    if(room.getFloor()!=floor || room.getNum()!=num) {
-            	    	
+            	    // si la chambre n'est pas la même que celle de la réservation, on doit changer la chambre de la réservation.
+                    if(!newRoom.equals(r.getRoom())){
+                        // si la nouvelle chambre est libre pendant la période spécifiée, on peut changer la chambre de la réservation
+            	        if (newRoom.CheckisFree(startDate.getDate(), endDate.getDate())) {
+            	        if(r.room !=null) {
+            	        Room room = r.getRoom() ;
+            	        if(room.getFloor()!=floor || room.getNum()!=num) {
             	        room.reservations.remove(r);
             	        newRoom.addReservation(r);
             	        r.setRoom(newRoom);   
-            	    }
+            	        }
             	    
-            	    }
-            	    else{
+            	        }
+            	        else{
             	    	newRoom.addReservation(r);
              	        r.setRoom(newRoom);  
-            	    }
-            	    }
-            	    else {
+            	        }
+            	        }
+            	        else {
             	    	JOptionPane.showMessageDialog(Rview, "La nouvelle chambre sélectionnée n'est pas libre pendant la période spécifiée.", "Erreur de réservation", JOptionPane.ERROR_MESSAGE);
                        
-            	    }
-            	}
+            	        }
+            	}}
             	
             	if(startDate.getDate() == null || endDate.getDate() == null || endDate.getDate().isBefore(startDate.getDate())) {
 					JOptionPane.showMessageDialog(Rview, "Veuillez spécifier une date de début et une date de fin.", "Erreur de réservation", JOptionPane.ERROR_MESSAGE);
@@ -204,6 +212,7 @@ public class EditReservationDialog extends JDialog {
         setSize(new Dimension(400, 250));
         setVisible(true);
     }
+    // remplir les combobox avec les clients et les chambres pour la selection;
 
     public void FillCustomerComboBox() {
         customerComboBox.removeAllItems();

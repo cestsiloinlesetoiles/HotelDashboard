@@ -33,14 +33,16 @@ public class BarDialog extends JDialog {
 	public JButton editConsumptionButton;
 	public GuestStay guestStay;
 	public StayP st;
+	
 	public BarDialog(GuestStay guestStay, StayP st) {
 		this.guestStay = guestStay;
 		this.st = st;
 		setSize(500, 500);
 		setTitle("MiniBar");
 		setLayout(new BorderLayout());
+	
 		setLocationRelativeTo((JFrame) SwingUtilities.getWindowAncestor(st));
-
+		// creation du model de la table des consommations et ajout des donnees.
 		createTableModel();
 		JconsumptionTable = new JTable(consumptionTableModel);
 		JScrollPane scrollPane = new JScrollPane(JconsumptionTable);
@@ -101,18 +103,18 @@ public class BarDialog extends JDialog {
 				String productName = productNameField.getText();
 				String quantityString = quantityField.getText();
 				String priceString = priceField.getText();
-
+				// verification que tous les champs sont remplis
 				if(productName.isEmpty() || quantityString.isEmpty() || priceString.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Tous les champs doivent être remplis !", "Erreur", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-
+				// verification que la quantite et le prix sont des chiffres
 				if(!quantityString.matches("\\d+") || !priceString.matches("\\d+")) {
 					JOptionPane.showMessageDialog(null, "La quantité et le prix doivent être des chiffres !", "Erreur", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				
-				
+					// recherche si le produit existe deja
 				if (guestStay.getConsumptionByName(productName)!=null) {
 		            JOptionPane.showMessageDialog(st, "L'option existe déjà !", "Erreur", JOptionPane.ERROR_MESSAGE);
 		            return;
@@ -132,14 +134,16 @@ public class BarDialog extends JDialog {
 			}
 		});
 
-
+		// suppression d'une consommation
 		deleteConsumptionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String productName = productNameField.getText();
 				if(!productName.isEmpty()) {
+					// recuperation de la consommation
 					Consumption consumption = guestStay.getConsumptionByName(productName);
 					if(consumption != null) {
+						// suppression de la consommation et mise a jour du tableau
 						guestStay.listconspt.remove(consumption);
 						updateTableModel();
 					} else {
@@ -151,7 +155,7 @@ public class BarDialog extends JDialog {
 			}
 		});
 
-	
+		// modification d'une consommation
 		editConsumptionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -167,10 +171,10 @@ public class BarDialog extends JDialog {
 					JOptionPane.showMessageDialog(null, "La quantité et le prix doivent être des chiffres !", "Erreur", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-
+				// conversion des champs en entiers
 				int quantity = Integer.parseInt(quantityString);
 				int price = Integer.parseInt(priceString);
-
+				// recuperation de la consommation
 				Consumption consumption = guestStay.getConsumptionByName(productName);
 				if(consumption != null) {
 					consumption.getProduct().name = productName;

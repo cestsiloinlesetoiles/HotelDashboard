@@ -25,15 +25,16 @@ public class ControllerCreateBilling  implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-			
+	
 		int selectedRow = st.JTableStay.getSelectedRow();
+		// Si aucune ligne n'est sélectionnée, on affiche un message d'erreur
 		if (selectedRow != -1) {
+			// ON vide la facture avant de la remplir
             st.invoiceArea.setText("");
+			// On récupère l'id du séjour sélectionné
 			int id = (int) st.JTableStay.getValueAt(selectedRow, 0);
 			GuestStay stay = st.h.getGuestStayById(id); 
-		
 			
-			System.out.println("On est rentré de dans it's k");
 
 			Room room = stay.reservation.getRoom();
 			Customer c = stay.reservation.customer;
@@ -42,7 +43,7 @@ public class ControllerCreateBilling  implements ActionListener {
 			String roomType = "Non disponible";
 			int roomPrice = 0;
 			int roomBed = 0;
-
+			// On récupère les informations de la chambre
 			if(room != null) {
 				if(room instanceof Simple) {
 					roomType = "Simple";
@@ -65,12 +66,16 @@ public class ControllerCreateBilling  implements ActionListener {
 				}
 			}
 
+
+			// On récupère les informations pour la facture
 			Vector<Consumption> listConsumptions = stay.listconspt;
 			stay.calculateTotalCost();
 			int total = stay.totalCost;
 			String name = stay.hotel.name; 
 			String add  = stay.hotel.address;
-			long numberOfDays = ChronoUnit.DAYS.between(stay.reservation.getDateStart(), stay.reservation.getDateEnd());	
+			int numberOfDays = stay.reservation.getStayDuration();
+			
+			// On écrit la facture dans la zone de texte de la facture
 			st.invoiceArea.append("================= HOTEL INFO =================\n");
 			st.invoiceArea.append("Nom de l'hotel : " + name + "\n");
 			st.invoiceArea.append("Adresse: " + add + "\n");
@@ -88,18 +93,20 @@ public class ControllerCreateBilling  implements ActionListener {
 			st.invoiceArea.append("Type de chambre: " + roomType + "\n");
 			st.invoiceArea.append("Prix par jour: " + roomPrice+"€" + "\n");
 			st.invoiceArea.append("Nombre de lits: " + roomBed + "\n\n");
-			st.invoiceArea.append("Consommations: \n");
 			
 			
 			
+			// pour chaque consommation, on affiche le nom et le prix
 			st.invoiceArea.append("================= CONSUMPTION INFO =================\n");
+			st.invoiceArea.append("Consommations: \n");
 			for (Consumption cons : listConsumptions) {
-				st.invoiceArea.append(cons.getName() + " - " + cons.product.getPrice()+"€"+ " - "+ cons.qt + "\n");
+				st.invoiceArea.append(cons.getName() + " : " + cons.product.getPrice()+"€"+ " - "+ cons.qt + "\n");
 			}
+			// pour chaque option, on affiche le nom et le prix
 			st.invoiceArea.append("\n================= ROOM OPTIONS =================\n");
 			st.invoiceArea.append("\nOptions de chambre : \n");
 			for (Options opt : listopt) {
-				st.invoiceArea.append(opt.getName() + " - " + opt.price+"€" + "\n");
+				st.invoiceArea.append(opt.getName() + " : " + opt.price+"€" + "\n");
 			}
 			
 			st.invoiceArea.append("\n================= TOTAL =================");

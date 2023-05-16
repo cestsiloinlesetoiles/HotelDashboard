@@ -2,7 +2,7 @@ package view.ui;
 import java.awt.Color;
 
 public class theme {
-    
+    //Class les couleurs par type
 	// Couleurs principales
     public static  Color PRIMARY = Color.decode("#3f51b5");
   

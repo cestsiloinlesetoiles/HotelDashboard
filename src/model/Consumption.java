@@ -26,7 +26,7 @@ public class Consumption {
     	this.product = product;
     }
     
-    
+    // Retourne le prix total de la consommation
 	public int getCost() {	
 		return product.getPrice()*qt;
 	}

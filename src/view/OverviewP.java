@@ -37,7 +37,7 @@ public class OverviewP extends JPanel implements Observer {
         h.addObserver(this);
         setLayout(new BorderLayout());
 
-        ImageIcon pgIco = new ImageIcon("resources/pagelevel/1.png");
+        ImageIcon pgIco = new ImageIcon(getClass().getResource("/resources/pagelevel/1.png"));
         JLabel pg = new JLabel(pgIco);
         pg.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         pnlPageLevel.setLayout(new BoxLayout(pnlPageLevel, BoxLayout.Y_AXIS));
@@ -88,7 +88,7 @@ public class OverviewP extends JPanel implements Observer {
         pnlMain.add(pnlCustomers);
     }
 
-
+    // mise à jour des informations de l'hôtel dans l'interface
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Hotel) {

@@ -58,7 +58,9 @@ public class StayP extends JPanel implements Observer{
     public JButton clearButton;
 	
 	public StayP (Hotel h) {
-		
+
+
+		// Structure semblable à RoomP
 		this.h = h;
 		// Mise en place du Pagelevel et du cadran Main
 		setLayout(new BorderLayout());
@@ -75,11 +77,7 @@ public class StayP extends JPanel implements Observer{
 		pnlMain.setBackground(theme.SECONDARY_BACKGROUND);
 		pnlPageLevel.setBackground(theme.SECONDARY_BACKGROUND);
 		
-		
-		
-		
-		
-
+		// Mise en place des panels
         leftPanel = new RoundedPanel() ;
         bottomRightPanel = new RoundedPanel();
         topRightPanel = new RoundedPanel();
@@ -120,26 +118,22 @@ public class StayP extends JPanel implements Observer{
         
         
         
-        ///
+        // Configuration des boutons
       
-
-
-
 		ImageIcon editIcon = new ImageIcon(getClass().getResource("/resources/Autres/invoice.png"));
 		ImageIcon editIconActive = new ImageIcon(getClass().getResource("/resources/Autres/invoiceA.png"));
 		JButton btnBilling = new JButton(editIcon);
 		btnBilling.setPressedIcon(editIconActive);
 		btnBilling.setContentAreaFilled(false);
 		btnBilling.setBorderPainted(false);
-
+		
+		// non fonctionnel
 		ImageIcon infoIcon = new ImageIcon(getClass().getResource("/resources/Autres/beer.png"));
 		ImageIcon infoIconActive = new ImageIcon(getClass().getResource("/resources/Autres/beerA.png"));
 		JButton btnBarMng = new JButton(infoIcon);
 		btnBarMng.setPressedIcon(infoIconActive);
 		btnBarMng.setContentAreaFilled(false);
 		btnBarMng.setBorderPainted(false);
-
-
 
 		ImageIcon deleteIcon = new ImageIcon(getClass().getResource("/resources/table/delete.png"));
 		ImageIcon deleteIconActive = new ImageIcon(getClass().getResource("/resources/table/deleteA.png"));
@@ -161,15 +155,12 @@ public class StayP extends JPanel implements Observer{
 
 
 
-
+		// Configuration du tableau DE SEJOUR
 		CreateTableModel();
 		JTableStay = new JTable(TableModelStay);
 
-
 		JScrollPane tableScrollPane = new JScrollPane(JTableStay);
 		tableScrollPane.setPreferredSize(new Dimension(350, 300));
-
-
 
 		JTableHeader header = JTableStay.getTableHeader();
 		header.setBackground(Color.decode("#232323"));
@@ -187,7 +178,7 @@ public class StayP extends JPanel implements Observer{
 		bottomRightPanel.add(tableScrollPane, BorderLayout.CENTER);
         
         
-		//topRightPanel
+		// Configuration du panel de haut droit
 		
 		topRightPanel.setLayout(new GridBagLayout());
 		
@@ -202,16 +193,13 @@ public class StayP extends JPanel implements Observer{
         c.gridy = 0;
         topRightPanel.add(stayLabel, c);
 
-        
-        
+    
         stayTextField = new JTextField(15);
         
         c.gridx = 0;
         c.gridy = 1;
         topRightPanel.add(stayTextField, c);
 
-        
-        
         AddBtn = new JButton("Crée un séjour");
         
         c.gridx = 1;
@@ -219,11 +207,8 @@ public class StayP extends JPanel implements Observer{
  
         topRightPanel.add(AddBtn, c);
         
-        
-        
-        
-        //leftPanel 
-        
+       
+        // Configuration du panel de gauche
         
         leftPanel.setLayout(new BorderLayout());
         
@@ -235,8 +220,7 @@ public class StayP extends JPanel implements Observer{
 		
 		leftPanel.add(title,BorderLayout.NORTH);
 		
-		
-		
+		// Configuration du panel de facture
 		invoice = new JPanel();
 		invoice.setBackground(theme.BACKGROUND_PANEL);
 		
@@ -244,7 +228,7 @@ public class StayP extends JPanel implements Observer{
 		leftPanel.add(invoice,BorderLayout.CENTER);
 		leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        
+        // Bordure du panel de facture
 		invoice.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createLineBorder(Color.black),"Facture",TitledBorder.LEFT, TitledBorder.TOP,
 		        new Font("Arial", Font.BOLD, 13), theme.BACKGROUND));
@@ -253,11 +237,14 @@ public class StayP extends JPanel implements Observer{
 		
 		
 		StayP stayp = this;
+		// Configuration de la fonctionnalité de création de séjour
 		AddBtn.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
 		        String input = stayTextField.getText();
+				// Vérification de la validité de l'ID de réservation
 		        if (!input.isEmpty()) {
+					// "un ou plusieurs chiffres"
 		            if (input.matches("\\d+")) {
 		                int id = Integer.parseInt(input);
 		                if (h.getReservationById(id)!= null) {
@@ -284,13 +271,13 @@ public class StayP extends JPanel implements Observer{
 		    }
 		});
 		
-		
+		// Configuration de la fonctionnalité de gestion de bar
 		btnBarMng.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
 		        int selectedRow = JTableStay.getSelectedRow();
 		        if (selectedRow != -1) {
-		            
+		            // recuperer la reservation grace a l'id de la ligne selectionnée pour charger la vue de gestion de bar
 		            int id = (int) JTableStay.getValueAt(selectedRow, 0);
 		            GuestStay stay = h.getGuestStayById(id); 
 		            
@@ -302,13 +289,14 @@ public class StayP extends JPanel implements Observer{
 		    }
 		});
 		
-		
+		// Configuration de la fonctionnalité de création de facture en +
 		ImageIcon clearIcon = new ImageIcon(getClass().getResource("/resources/Autres/clear.png"));
 		ImageIcon clearIconActive = new ImageIcon(getClass().getResource("/resources/Autres/clearA.png"));
 		
 		ImageIcon printIcon = new ImageIcon(getClass().getResource("/resources/Autres/print.png"));
 		ImageIcon printIconActive = new ImageIcon(getClass().getResource("/resources/Autres/printA.png"));
 		
+		// configuration de la facture interne du panel de facture
 		invoice.setLayout(new BorderLayout());
 		JPanel buttonMenu = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		buttonMenu.setBackground(theme.BACKGROUND_PANEL);
@@ -326,7 +314,8 @@ public class StayP extends JPanel implements Observer{
 		
 		buttonMenu.add(printButton);
 		buttonMenu.add(clearButton);
-		invoice.add(buttonMenu, BorderLayout.NORTH);	
+		invoice.add(buttonMenu, BorderLayout.NORTH);
+		//	
 		invoiceArea = new JTextArea();
 		invoice.add(invoiceArea,BorderLayout.CENTER);
 		btnBilling.addActionListener(new ControllerCreateBilling(stayp));
@@ -342,7 +331,7 @@ public class StayP extends JPanel implements Observer{
 		
 	}
 	
-	
+	// Configuration du tableau de séjour meme principe que pour le tableau de CustomerP
 	 public void CreateTableModel() {
 
 	    	String[] columnNames = {"N° Res","Date de fin","Client","Totale"}
@@ -379,7 +368,6 @@ public class StayP extends JPanel implements Observer{
 	 public void updateTableModel() {
 			CreateTableModel();
 			JTableStay.setModel(TableModelStay);
-		
 			TableModelStay.fireTableDataChanged();
 		}
 

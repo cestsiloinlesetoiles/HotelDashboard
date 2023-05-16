@@ -18,7 +18,7 @@ public class ControllerDelReservations implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		int[] selectedRows = r.JTableReserv.getSelectedRows();
 		int numRows = selectedRows.length;
-
+		// meme principe que pour le controllerDeletingStayP sauf qu'on uttilise la methode removeReservation.
 		if (numRows == 0) {
 			JOptionPane.showMessageDialog(r, "Aucune ligne sélectionnée.", "Information", JOptionPane.INFORMATION_MESSAGE);
 		} else {

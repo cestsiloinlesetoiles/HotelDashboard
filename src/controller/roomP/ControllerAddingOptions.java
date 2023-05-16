@@ -22,11 +22,12 @@ public class ControllerAddingOptions implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String optionName = r.optionNameTextField.getText();
         String optionPriceStr = r.optionPriceTextField.getText();
-
+        // On vérifie que tous les champs sont remplis
         if (optionName.isEmpty() || optionPriceStr.isEmpty()) {
             JOptionPane.showMessageDialog(r, "Veuillez remplir tous les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        // On vérifie que le prix est un nombre
         if(!optionPriceStr.matches("\\d+")) {
         	JOptionPane.showMessageDialog(r, "Veuillez entrer des nombres valides pour le prix", "Erreur", JOptionPane.ERROR_MESSAGE);
         	return;
@@ -41,11 +42,13 @@ public class ControllerAddingOptions implements ActionListener {
                 return;
             }
         }
-
+        // On ajoute l'option
         Options newOption = new Options(optionName, optionPrice);
         r.optionsVector.add(newOption);
+        // on update le tableau
         r.updateTableModelOptions();
         JOptionPane.showMessageDialog(r, "Option ajoutée avec succès", "Succès", JOptionPane.INFORMATION_MESSAGE);
+        // On vide les champs
         r.optionNameTextField.setText("");
         r.optionPriceTextField.setText("");
     }	

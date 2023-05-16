@@ -34,11 +34,12 @@ public class EditCustomerDialog extends JDialog {
 		
 		this.c = c;
 		
-		
+		// Récupération de la ligne sélectionnée
 		int selectedRow = c.JTableCustomer.getSelectedRow();
 		if (selectedRow > -1) {
 		String lastName = (String) c.JTableCustomer.getValueAt(selectedRow, 0);
 		String firstName = (String) c.JTableCustomer.getValueAt(selectedRow, 1);
+		// Recherche du client
 		Customer customerEdit = c.h.CheckIn(firstName, lastName);
 
 		
@@ -65,6 +66,7 @@ public class EditCustomerDialog extends JDialog {
 			this.add(btnSave, BorderLayout.SOUTH);
 			
 			Dialog d = this;
+			// Enregistrement des modifications
 			btnSave.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -76,7 +78,7 @@ public class EditCustomerDialog extends JDialog {
 								JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-
+					// Vérification de l'existence d'un client avec le même nom et prénom
 					if (!newFirstName.equals(customerEdit.getFirstName()) || !newLastName.equals(customerEdit.getLastName())) {
 						if (c.h.CheckIn(newFirstName, newLastName) != null) {
 							JOptionPane.showMessageDialog(c, "Un client avec ce nom et prénom existe déjà.", "Erreur",

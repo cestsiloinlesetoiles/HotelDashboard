@@ -27,11 +27,11 @@ public class Room {
         return floor;
     }
     
+
+	// Vérifier si la chambre est libre pour une période donnée
     public boolean CheckisFree(LocalDate start, LocalDate end){
-    	// Parcourir toutes les réservations de la chambre
-    	// Vérifier simplement si end n'est pas inférieur à start et si end n'est pas supérieur à start
-    	for (Reservation res : reservations) {
-    		  // Vérifier si la réservation chevauche
+    	// voir si la réservation chevauche la période donnée pour chaque réservation
+		for (Reservation res : reservations) {
     		 if (!(end.isBefore(res.getDateStart()) || start.isAfter(res.getDateEnd()))) return false;
     	 }
     	return true;
@@ -80,12 +80,12 @@ public class Room {
 	}
 
 
-
+	// Juste pour les tests
 	public String getType() {
 		return "ERROR";
 	}
 
-	
+	// Ajouter une réservation à la liste des réservations de la chambre pour check non disponibilité
 	public void addReservation(Reservation reservation) {
 	    this.reservations.add(reservation);
 	}

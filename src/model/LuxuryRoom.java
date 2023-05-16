@@ -13,16 +13,14 @@ public class LuxuryRoom extends Room {
     	super(num,floor);
     	this.setPrice(spec_price);
         this.setBeds(spec_bed);
-        // list vide d'options
         this.listoptions = new Vector<>();
     }
     
-
+    // CALCUL DU COUT DE LA CHAMBRE EN FONCTION DES OPTIONS ET DU PRIX DE BASE
     @Override
     public int getCost() {
 
     	int OptionsCost = 0;
-    	// type element : collection
     	
     	for ( Options opts  : listoptions) {
     		OptionsCost+= opts.getCost();
@@ -58,6 +56,7 @@ public class LuxuryRoom extends Room {
     	listoptions.add(opt);
     }
     
+    // remove option de la liste des options
     public void removeOptions(String name) {
         for (int i = 0; i < listoptions.size(); i++) {
             if (listoptions.get(i).getName().equals(name)) {

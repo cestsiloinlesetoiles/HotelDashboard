@@ -40,7 +40,7 @@ public class SettingDiag extends JDialog {
         mainPanel.add(saveButton);
         mainPanel.add(cancelButton);
 
-        
+        // Mettre à jour les informations de l'hôtel:
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

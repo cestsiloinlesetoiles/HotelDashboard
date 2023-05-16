@@ -65,6 +65,7 @@ public class EditOptionsDialog extends JDialog {
         JButton cancelButton = new JButton("Annuler");
 
         JDialog d = this;
+        // Modification de l'option
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,6 +75,7 @@ public class EditOptionsDialog extends JDialog {
                     JOptionPane.showMessageDialog(r, "Veuillez entrer des nombres valides pour le prix", "Erreur", JOptionPane.ERROR_MESSAGE);
                     return;
                 } else {
+                    // Vérification que le nom n'est pas déjà utilisé par une autre option et que le nom n'est pas le même que celui de l'option à modifier
                     if (r.getOptionByName(txtName.getText()) != null && !opt.getName().equals(txtName.getText())) {
                         JOptionPane.showMessageDialog(d, "Le nom d'options que vous avez entré est déjà utilisé. Veuillez en choisir un autre.", "Nom déjà utilisé", JOptionPane.ERROR_MESSAGE);
                     } else {

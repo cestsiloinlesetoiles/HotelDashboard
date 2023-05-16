@@ -45,6 +45,7 @@ public class Hotel extends Observable {
 	}
 	
 	
+	// Sync les chambres si je supprime une option dans mon tableau d'options vue Room alors je supprime l'option dans toutes les chambres
 	public void removeOptionFromRooms(String optionName) {
 	    for (Room room : rooms) {
 	        
@@ -63,7 +64,7 @@ public class Hotel extends Observable {
 	    }
 	}
 	
-	
+	// renvoie le client en fonction de son nom et prenom
 	public Customer CheckIn(String firstName, String lastName) {
 		for (Customer customer : customers) {
 			if (customer.getFirstName().equalsIgnoreCase(firstName) && customer.getLastName().equalsIgnoreCase(lastName)) {
@@ -77,6 +78,7 @@ public class Hotel extends Observable {
 
 
 	
+	// ajout d'une chambre
 
 	public void basicAddRoom(Room room) {
 		if (!(isRoomExist(room.getFloor(), room.getNum()))) {
@@ -115,14 +117,19 @@ public class Hotel extends Observable {
 	}
 	
 	
-	
+	// Ajout de plusieurs chambres en fonction du nombre de chambre et du type de chambre et du nombre de chambre par étage max
 	public void addRooms(int numberOfRooms, Roomtype roomType, int floor, int currentRoomNumber, int floorCapacity ) {
-	    	
+		
 		while (numberOfRooms > 0) {
-	        if(floorCapacity < currentRoomNumber  ) {
+	        
+			// si le nombre de chambre par étage est atteint on passe à l'étage suivant
+			if(floorCapacity < currentRoomNumber  ) {
 	        	floor++;
 	        	currentRoomNumber = 1;
 	        }
+			// si la chambre n'existe pas on l'ajoute et si l'existe on passe à la chambre suivante on s'adapte l'occuputation de la chambre
+			// Toute en respecant le total voulue de chambre à ajouter
+
 			if (!isRoomExist(floor, currentRoomNumber)) {
 	            addRoom(floor, currentRoomNumber, roomType);
 	            numberOfRooms--;
@@ -134,7 +141,7 @@ public class Hotel extends Observable {
         notifyObservers();
 	}
 
-	
+	// Suppression d'une chambre
 	public void removeRoom(int floor, int num) {
 	    for (int i = 0; i < rooms.size(); i++) {
 	        if (rooms.get(i).getFloor() == floor && rooms.get(i).getNum() == num) {
@@ -150,7 +157,7 @@ public class Hotel extends Observable {
        
 	}
 
-	
+	// Vérifie si la chambre existe
 	public boolean isRoomExist(int floor, int num) {
 		for (int i = 0; i < rooms.size(); i++) {
 			if (rooms.get(i).getFloor() == floor & rooms.get(i).getNum() == num) {
@@ -160,6 +167,7 @@ public class Hotel extends Observable {
 		return false;
 	}
 	
+	// Retourne la chambre en fonction de son numéro et étage
 	public Room getRoom(int floor, int num) {
 	    for (Room room : rooms) {
 	        if (room.getFloor() == floor && room.getNum() == num) {
@@ -170,18 +178,20 @@ public class Hotel extends Observable {
 	}
 	
 	
-	
-
+	// ajoute une reservation. 
 	public void addReservation(Reservation reservation) {
-		
+		// Double reference
+		// si la chambre est pas null on ajoute pas la reservation
 		if(reservation.room != null) {reservation.room.reservations.add(reservation);};
-		
+		// si le client est pas null on ajoute pas la reservation
 		if(reservation.getCustomer() != null){reservation.getCustomer().getListrsv_current_customer().add(reservation);}
 		
 		reservation.setHotel(this);
 	    reservations.add(reservation);
 	}
 
+
+	// supprime une reservation
 	public void removeReservation(Reservation reservation) {
 		if(reservation.room != null) {
 		reservation.room.reservations.remove(reservation);};
@@ -189,7 +199,7 @@ public class Hotel extends Observable {
 		reservation.getCustomer().getListrsv_current_customer().remove(reservation);};
 		reservations.remove(reservation);
 	}
-
+	// retourne la reservation en fonction de son id
 	public Reservation getReservationById(int id) {
 	    for (Reservation reservation : reservations) {
 	        if (reservation.getId() == id) {
@@ -199,6 +209,7 @@ public class Hotel extends Observable {
 	    return null;
 	}
 
+	// retourne un sejour en fonction de son id
 	public GuestStay getGuestStayById(int id) {
 	    for (GuestStay guestStay : guestStays) {
 	        if (guestStay.getReservation().getId() == id) {

@@ -37,8 +37,9 @@ public class Reservation {
    	this.hotel=hotel;
    }
    
-   
+   // Retourne la durée du séjour
    public int getStayDuration() {
+		// CHRONOUNIT.DAYS retourne le nombre de jours entre deux dates
 	   return (int) ChronoUnit.DAYS.between(date_start, date_end);
 	}
 

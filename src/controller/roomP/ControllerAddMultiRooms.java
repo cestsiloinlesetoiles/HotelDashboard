@@ -20,11 +20,9 @@ public class ControllerAddMultiRooms implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
     	JButton b = (JButton)e.getSource();
-    	
-    	
-    	
-    	
-    	
+        // le controller pour et associer a deux boutons, le bouton enregistrer et le bouton annuler 
+        // ou check si le bouton est le bouton enregistrer ou le bouton annuler
+    	// meme principe que pour le controllerAddingSingleRoom sauf qu'on uttilise la methode addRooms qui permet d'ajouter plusieurs chambres d'un coup
     	if(b.getText().equals("Enregistrer")) {
         if (!d.txtNumberOfRooms.getText().isEmpty() && !d.txtStartingFloor.getText().isEmpty() && !d.txtStartingRoomNumber.getText().isEmpty()&& !d.txtCapacityPerFloor.getText().isEmpty()) {
             int numberOfRooms = Integer.parseInt(d.txtNumberOfRooms.getText());

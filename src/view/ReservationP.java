@@ -55,7 +55,7 @@ public class ReservationP extends JPanel implements Observer {
 	public JPanel pnlMain = new JPanel();
 	public JPanel pnlPageLevel = new JPanel();
 
-
+	// DatePickers librarie externe LGoodDatePicker : https://github.com/LGoodDatePicker/LGoodDatePicker
 	public DatePicker startDate; 
 	public DatePicker endDate; 
 	public JLabel roomLabel;
@@ -67,8 +67,7 @@ public class ReservationP extends JPanel implements Observer {
 		this.h = h;
 		this.stayP =stayP;
 		
-		// Mise en place du Pagelevel et du cadran Main
-		
+		// Meme chose que pour CustomerP
 
         setLayout(new BorderLayout());
         ImageIcon pgIco = new ImageIcon(getClass().getResource("/resources/pagelevel/4.png"));
@@ -206,7 +205,6 @@ public class ReservationP extends JPanel implements Observer {
 		formPanel.add(roomComboBox, c);
 		
 		// Ligne 3: Champs texte
-		
 		c.gridx = 0;
 		c.gridy = 2;
 		formPanel.add(DateStartLabel, c);
@@ -225,8 +223,7 @@ public class ReservationP extends JPanel implements Observer {
 		c.gridx = 2;
 		formPanel.add(endDate, c);
 	
-		// Ligne 5: Boutons
-
+		// Ligne 5: Bouton
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridwidth = 2;
@@ -244,7 +241,7 @@ public class ReservationP extends JPanel implements Observer {
         pnlJTable.setPreferredSize(new Dimension(870, 500));
 		
         
-        // Jtable 
+        // JTable des reservations
 		
         pnlJTable.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 		
@@ -254,7 +251,8 @@ public class ReservationP extends JPanel implements Observer {
         btnEdit.setPressedIcon(editIconActive);
         btnEdit.setContentAreaFilled(false);
         btnEdit.setBorderPainted(false);
-
+		
+		// NON IMPLEMENTE FAUTE DE TEMPS
         ImageIcon infoIcon = new ImageIcon(getClass().getResource("/resources/table/info.png"));
         ImageIcon infoIconActive = new ImageIcon(getClass().getResource("/resources/table/infoA.png"));
         JButton btnInfo = new JButton(infoIcon);
@@ -297,17 +295,23 @@ public class ReservationP extends JPanel implements Observer {
         pnlJTable.add(tableScrollPane, BorderLayout.CENTER);
         
         buttonsPanel.setBackground(theme.BACKGROUND_PANEL);
-        ReservationP resP = this;
 
-        // Controller o
+        // Stockage this dans une variable pour l'utiliser dans les ActionListener
+		ReservationP resP = this;
+
+        
         AddButton.addActionListener(new ControllerAddReseravtions(this));
         btnDelete.addActionListener(new ControllerDelReservations(this));
-        btnEdit.addActionListener(new ActionListener() {
+
+		
+		
+		btnEdit.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int selectedRow = JTableReserv.getSelectedRow();
 				if(selectedRow>-1) {
+					// Btn recupère les infos de la ligne selectionnée et les envoies dans le controller l'id de la reservation.
 					int id = Integer.parseInt(JTableReserv.getValueAt(selectedRow, 0).toString());
 					new EditReservationDialog(h.getReservationById(id), resP);
 					
@@ -323,38 +327,40 @@ public class ReservationP extends JPanel implements Observer {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 Vector<Room> freeRooms = new Vector<Room>();
-				 
+				// liste des chambres libres 
+				Vector<Room> freeRooms = new Vector<Room>();
+				 // Vérification des dates doivent être conformes
 				 if(startDate.getDate() == null || endDate.getDate() == null || endDate.getDate().isBefore(startDate.getDate())) {
 						JOptionPane.showMessageDialog(resP, "Veuillez spécifier une date de début et une date de fin valide", "Erreur de réservation", JOptionPane.ERROR_MESSAGE);
 						return;
 				 }
 
 				 
-				 
+				 // Vérification des chambres libres avec la methode CheckisFree et ajout dans la liste des chambres libres
 				 for(Room room : h.rooms) {
 					 if(room.CheckisFree(startDate.getDate(), endDate.getDate())) {
 						 freeRooms.add(room);
 					 }
 				 }
 				 
-				 
+				 // Si aucune chambre n'est libre on affiche un message d'erreur
 				 if (freeRooms.isEmpty()) {
 			            JOptionPane.showMessageDialog(resP, "Aucune chambre n'est disponible pendant la période sélectionnée.", "Information", JOptionPane.INFORMATION_MESSAGE);
 			            return;
 				 }
 				 
+				 // Panel pour stocker les jlabel des chambres libres
 				 JPanel pnl = new JPanel();
 				 pnl.setLayout(new BoxLayout(pnl, BoxLayout.Y_AXIS));
 				 
-				 
+				 // Ajout des chambres libres dans le panel étage - numéro - type
 				 for (Room room : freeRooms) {
 		                pnl.add(new JLabel(room.getFloor() + " - " + room.getNum() + " - " + room.getType()));
 		         }
-				 
+				 // ScrollPane pour scroll si il y a trop de chambres libres
 				 JScrollPane scrollFrame = new JScrollPane(pnl);
 		         scrollFrame.setPreferredSize(new Dimension(300, 200));
-				
+				 // Affichage du panel dans une boite de dialogueMessage
 		         JOptionPane.showMessageDialog(resP, scrollFrame, "Chambres disponibles", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
@@ -366,7 +372,7 @@ public class ReservationP extends JPanel implements Observer {
 	
 
 		
-
+		// Meme chose que pour CustomerP avec quelques modifications
 	   public void CreateTableModel() {
 
 	    	String[] columnNames = {"N°","Date de debut","Date de fin","Type de Chambre","Client","Status"}
@@ -382,7 +388,7 @@ public class ReservationP extends JPanel implements Observer {
 				data[i][2] = res.getDateEnd().toString();
 				
 				Room room = res.getRoom();
-				
+				// On affiche le type de chambre
 				if (room instanceof Simple) {
 					data[i][3] = "Simple";
 				} else if (room instanceof DoubleRoom) {
@@ -403,12 +409,12 @@ public class ReservationP extends JPanel implements Observer {
 					data[i][4] = c.getFirstName()+" "+ c.getLastName();
 					
 				}
+
+				// On récupère la date actuelle
 				LocalDate currentDate = LocalDate.now();
-				
 
-		 
 		        String status;
-
+				// On affiche le status de la reservation en fonction de la date actuelle
 		        if (currentDate.isEqual(res.getDateStart())) {
 		            status = "Check-in";
 		        } else if (currentDate.isEqual(res.getDateEnd())) {
@@ -434,18 +440,19 @@ public class ReservationP extends JPanel implements Observer {
 		}
 	   
 	   
-	   
+	   // Meme chose que pour CustomerP
 		public void updateTableModel() {
 			CreateTableModel();
 			JTableReserv.setModel(TableModelReserv);
-		
+			// pour mettre à jour le status des séjours selon les opertions effectuées dans la page reservation
+			// Cause :  Impossible  de extend jpanel et observable en meme temps en java donc on le fait manuellement
 			stayP.updateTableModel();
 			TableModelReserv.fireTableDataChanged();
 		}
 		
 	   
 	   
-	   
+	   // remplissage de la combobox des chambres avec les chambres créées de l'hotel
 	   public void FillRoomComboBox() {
 		   roomComboBox.removeAllItems();
 		   for(Room room : h.rooms) {
@@ -454,7 +461,8 @@ public class ReservationP extends JPanel implements Observer {
 		   }
 		   roomComboBox.setSelectedItem(null);
 	   }
-
+	
+	// on re remplit à chaque fois la combobox des chambres pour qu'elle soit à jour chaque fois qu'on ajoute une chambre dans le model
 	@Override
 	public void update(Observable o, Object arg) {
 		FillRoomComboBox();

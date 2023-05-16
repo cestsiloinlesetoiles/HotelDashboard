@@ -18,15 +18,17 @@ public class ControllerDelStay implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         int[] selectedRows = stayP.JTableStay.getSelectedRows();
         int numRows = selectedRows.length;
-
+        // Si aucune ligne n'est sélectionnée, on affiche un message d'erreur
         if (numRows == 0) {
             JOptionPane.showMessageDialog(stayP, "Aucun séjour sélectionné.", "Information",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
+            // Sinon on demande confirmation de la suppression
             int result = JOptionPane.showConfirmDialog(stayP,
                     "Êtes-vous sûr de vouloir supprimer " + numRows + " séjours ?", "Confirmation",
                     JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
+                // Si l'utilisateur confirme, on supprime les séjours sélectionnés
                 for (int i = numRows - 1; i >= 0; i--) {
                     int selectedRow = selectedRows[i];
                     int stayId = (int) stayP.JTableStay.getValueAt(selectedRow, 0);

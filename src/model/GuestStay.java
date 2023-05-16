@@ -23,13 +23,17 @@ public class GuestStay {
     	this.reservation = reservation;
     }
     
+    // CALCUL DU COUT TOTAL DU SEJOUR
     public void calculateTotalCost() {
     	int reservationCost = 0;
+
+        // Si la réservation n'a pas de chambre, le coût de la réservation est de 0
     	if(reservation.getRoom()!=null) {
+            
     	int roomCost = reservation.getRoom().getCost() ; 
     	
     	int stayDuration = reservation.getStayDuration();
-    
+        // Calcul du coût de la réservation en fonction de la durée du séjour
     	reservationCost = roomCost * stayDuration;
     
     	}
@@ -38,11 +42,12 @@ public class GuestStay {
     	for ( Consumption cspt  : listconspt) {
     		consumptionCost+= cspt.getCost();
     	}
-    	
+    	// Calcul du coût total du séjour AVEC la consommation et la réservation 
     	totalCost = consumptionCost + reservationCost;
     	
     }
     
+    // RECUPERER UNE CONSO PAR SON NOM
     public Consumption getConsumptionByName(String name) {
         for (Consumption cspt : listconspt) {
             if (cspt.getName().equals(name)) {

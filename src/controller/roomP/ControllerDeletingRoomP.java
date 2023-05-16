@@ -21,7 +21,7 @@ public class ControllerDeletingRoomP implements ActionListener  {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton b = (JButton)e.getSource();
-
+		// Meme principe que pour le controllerDeletingStayP sauf qu'on uttilise la methode removeRoom.
 		if(b.getActionCommand() == "Room") {
 			int[] selectedRows = r.JTableRoom.getSelectedRows();
 			int numRows = selectedRows.length;

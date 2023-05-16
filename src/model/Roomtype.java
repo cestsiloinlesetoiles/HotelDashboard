@@ -1,6 +1,6 @@
 package model;
 
-// Nouvelle class crée pour simplifie le travail
+// Enum pour les types de chambres disponibles pour les switchs
 public enum Roomtype {
 	SIMPLE,
     DOUBLE,

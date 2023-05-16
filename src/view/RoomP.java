@@ -78,6 +78,8 @@ public class RoomP extends JPanel {
 
 	public RoomP(Hotel h, StayP stay) {
 		this.h = h;
+
+		// Configuration v2 de la structure de la page CustomerP ( lègrement différente de la v1 avec un panel en plus droite)
 		setLayout(new BorderLayout());
 
 		// Configuration du panel pnlPageLevel
@@ -135,12 +137,12 @@ public class RoomP extends JPanel {
 
 
 
-		// Ajout des options classique
+		//JTable pour les options
+		// Ajout des options par défaut pour tester
 		Options breakfastOption = new Options("Petit déjeuner", 10);
 		Options dailyCleaningOption = new Options("Nettoyage quotidien", 20);
 		Options roomServiceOption = new Options("Service de chambre", 15);
 		Options wifiOption = new Options("Accès Wi-Fi", 5);
-
 		optionsVector.add(breakfastOption);
 		optionsVector.add(dailyCleaningOption);
 		optionsVector.add(roomServiceOption);
@@ -148,7 +150,7 @@ public class RoomP extends JPanel {
 
 
 
-
+		// Configuration du panel pnlTopDiv
 		pnlTopDiv.setLayout(new GridBagLayout());
 
 		String titleText = "<html>Rooms<br>Manager</html>";
@@ -184,14 +186,13 @@ public class RoomP extends JPanel {
 		btnEdit.setContentAreaFilled(false);
 		btnEdit.setBorderPainted(false);
 
+		// NON IMPLEMENTE FAUTE DE TEMPS
 		ImageIcon infoIcon = new ImageIcon(getClass().getResource("/resources/table/info.png"));
 		ImageIcon infoIconActive = new ImageIcon(getClass().getResource("/resources/table/infoA.png"));
 		JButton btnInfo = new JButton(infoIcon);
 		btnInfo.setPressedIcon(infoIconActive);
 		btnInfo.setContentAreaFilled(false);
 		btnInfo.setBorderPainted(false);
-
-
 
 		ImageIcon deleteIcon = new ImageIcon(getClass().getResource("/resources/table/delete.png"));
 		ImageIcon deleteIconActive = new ImageIcon(getClass().getResource("/resources/table/deleteA.png"));
@@ -201,16 +202,15 @@ public class RoomP extends JPanel {
 		btnDelete.setBorderPainted(false);
 		btnDelete.setActionCommand("Room");
 
-
-
+		JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		// Recherche feature surpimée faute de temps
 		//JLabel searchLabel = new JLabel("Recherche:");
 		//JTextField searchTextField = new JTextField(15);
-
-
-		JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		//searchPanel.add(searchLabel);
 		//searchPanel.add(searchTextField);
 
+
+		// jtable pour les chambres meme partern que pour les customers
 		RoundedPanel buttonsPanel = new RoundedPanel();
 		buttonsPanel.setBackground(theme.SECONDARY_BACKGROUND);
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -250,7 +250,7 @@ public class RoomP extends JPanel {
 
 
 
-		// OptionsPanel
+		// Configuration du panel pnlSide et optionspanel
 
 		pnlSide.setBackground(theme.BACKGROUND_PANEL);
 		pnlSide.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
@@ -260,7 +260,7 @@ public class RoomP extends JPanel {
 
 		JLabel optionPriceLabel = new JLabel("Options Prix :");
 		optionPriceTextField = new JTextField(15);
-
+		// JTable pour les options creation de la table en +
 		CreateTableModelOptions();
 		JTableOptions = new JTable(TableModelOptions);
 
@@ -280,8 +280,6 @@ public class RoomP extends JPanel {
 		optionsPanel.setBackground(theme.BACKGROUND_PANEL);
 		JButton btnAddOption = new JButton("Ajouter");
 		GridBagConstraints gbcOptions = new GridBagConstraints();
-
-
 
 		gbcOptions.fill = GridBagConstraints.HORIZONTAL;
 		gbcOptions.insets = new Insets(2, 2, 2, 2);
@@ -315,7 +313,7 @@ public class RoomP extends JPanel {
 
 
 
-
+		// Ajout des boutons edit et delete pour les options
 		RoundedPanel buttonsPanel2 = new RoundedPanel();
 		buttonsPanel2.setBackground(theme.BACKGROUND_PANEL);
 		buttonsPanel2.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -344,7 +342,7 @@ public class RoomP extends JPanel {
 
 
 
-
+		// Formulair pour ajouter une chambre
 
 		lblFloor = new JLabel("Étage:");
 		lblRoomNumber = new JLabel("Numéro de chambre:");
@@ -356,9 +354,6 @@ public class RoomP extends JPanel {
 		btnAddRoom = new JButton("Ajouter");
 
 		JButton btnMultipleAdding = new JButton("Ajouts par lots");
-
-
-
 
 		txtFloor.setPreferredSize(new Dimension(80, 20));
 		txtRoomNumber.setPreferredSize(new Dimension(80, 20));
@@ -411,8 +406,10 @@ public class RoomP extends JPanel {
 
 
 
-		//Controller 
+		// Configuration des boutons avec les controllers : 
+		// this stocke la référence de la classe RoomP dans une variable locale pour pouvoir l'utiliser dans les controllers
 		RoomP r = this;
+
 		btnAddRoom.addActionListener(new ControllerAddingSingleRoom(this));
 		btnAddOption.addActionListener( new ControllerAddingOptions(this));
 
@@ -430,16 +427,15 @@ public class RoomP extends JPanel {
 		
 		
 		btnEdit.addActionListener(new ActionListener() {
-			
-			
-			
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				int selectedRow = JTableRoom.getSelectedRow();
 				if(selectedRow>-1) {
 				int floor = (int) r.JTableRoom.getValueAt(selectedRow, 0);
 				int num =  (int) r.JTableRoom.getValueAt(selectedRow, 1);
+				// On prend la ligne sélectionnée dans la JTable et on récupère l'étage et le numéro de chambre pour choper la ref de la chambre
 				Room room = r.h.getRoom(floor, num);
 				new EditRoomDialog(room, r);
 				stay.updateTableModel();
@@ -450,7 +446,7 @@ public class RoomP extends JPanel {
 				
 			}
 		});
-	
+		// Bouton edit pour les options meme principe que pour les chambres
 		btnEdit2.addActionListener(new ActionListener() {
 			
 			@Override
@@ -478,7 +474,7 @@ public class RoomP extends JPanel {
 
 
 	
-
+	// Meme principe que pour customerP
 	public void CreateTableModel() {
 
 		String[] columnNames = {"Etage", "Numero", "Type"};
@@ -556,7 +552,7 @@ public class RoomP extends JPanel {
 
 
 
-
+	// Fonction pour remove une option car le tableau d'options possible presente dans la vue et pas dans le modele. 
 	public void removeOption(String name) {
 		for (int i = 0; i < optionsVector.size(); i++) {
 			if (optionsVector.get(i).getName().equals(name)) {

@@ -18,6 +18,7 @@ public class Customer {
 		this.setFirstname(firstname);
 		this.setEmail(email);
 		this.setPhone(phone);
+		// On incrémente l'ID de 1 à chaque fois qu'on crée un nouveau client
 		CurrentId = IdCount;
 	}
 

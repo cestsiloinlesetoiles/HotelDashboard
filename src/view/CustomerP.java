@@ -57,25 +57,37 @@ public class CustomerP extends JPanel {
 	public JButton btnAddingCustomer = new JButton("Ajouter");
 
 	public CustomerP(Hotel h) {
+        
 		this.h = h;
-		AddCustomertest();
+		
+        // On rajoute des clients pour tester l'affichage de la JTable et la recherche etc...
+        AddCustomertest();
+        
+        // Structure de la page Customer commune à toutes les pages
         setLayout(new BorderLayout());
+
+        // Page level qui indique le niveau de la page dans le menu
         ImageIcon pgIco = new ImageIcon(getClass().getResource("/resources/pagelevel/3.png"));
         JLabel pg = new JLabel(pgIco);
+        // Décalage du label vers le gauche avec un padding
         pg.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         pnlPageLevel.setLayout(new BoxLayout(pnlPageLevel, BoxLayout.Y_AXIS));
         pnlPageLevel.add(Box.createVerticalGlue());
         pnlPageLevel.add(pg);
         pnlPageLevel.add(Box.createVerticalGlue());
         add(pnlPageLevel, BorderLayout.EAST);
-
+        
+        // Main panel qui contient tous les éléments de la page structure commune à toutes les pages
         add(pnlMain, BorderLayout.CENTER);
         pnlMain.setBackground(theme.SECONDARY_BACKGROUND);
         pnlPageLevel.setBackground(theme.SECONDARY_BACKGROUND);
 
+        // Strucuture interne du main panel specifique à la page Customer en gros les emplacements formulaire et la JTable.
         pnlMain.setLayout(new GridBagLayout());
+       
         GridBagConstraints gbc = new GridBagConstraints();
-
+        
+        // RoundedPanel panel custome qui permet d'arrondir les bords du panel en uttilisant flatlaf style
         RoundedPanel pnlTopDiv = new RoundedPanel();
         pnlTopDiv.setBackground(theme.BACKGROUND_PANEL);
         gbc.gridx = 0;
@@ -97,12 +109,15 @@ public class CustomerP extends JPanel {
         pnlMain.add(pnlJTable, gbc);
 
         pnlTopDiv.setLayout(new GridBagLayout());
-        
+
+        //////////////////// DANS LE TOP PANEL ///////////////////////////////////
+        // Formulaire et titre
+        // Header de la page Customer HTLM pour pouvoir mettre le titre sur deux lignes
         String titleText = "<html>Customer<br>Manager</html>";
         JLabel title = new JLabel(titleText);
-
         title.setFont(new Font("SansSerif", Font.BOLD, 36));
         title.setForeground(theme.BACKGROUND);
+        // Décalage du titre vers la droite avec un padding
         title.setBorder(BorderFactory.createEmptyBorder(0, 60, 0, 0));
 
         JPanel formPanel = new JPanel();
@@ -123,14 +138,16 @@ public class CustomerP extends JPanel {
         pnlTopDiv.add(formPanel, gbc);
 
       
-
+        // Boutons du tableau (edit, info, delete)
         ImageIcon editIcon = new ImageIcon(getClass().getResource("/resources/table/edit.png"));
         ImageIcon editIconActive = new ImageIcon(getClass().getResource("/resources/table/editA.png"));
         JButton btnEdit = new JButton(editIcon);
         btnEdit.setPressedIcon(editIconActive);
+        // On enlève le background du bouton
         btnEdit.setContentAreaFilled(false);
         btnEdit.setBorderPainted(false);
-
+        
+        // NON IMPLEMENTE FAUTE DE TEMPS
         ImageIcon infoIcon = new ImageIcon(getClass().getResource("/resources/table/info.png"));
         ImageIcon infoIconActive = new ImageIcon(getClass().getResource("/resources/table/infoA.png"));
         JButton btnInfo = new JButton(infoIcon);
@@ -145,12 +162,15 @@ public class CustomerP extends JPanel {
         btnDelete.setContentAreaFilled(false);
         btnDelete.setBorderPainted(false);
         
+        
+        // Initialisation de la jmodeltable avec les données avec la methode CreateTableModel pattern commun à toutes les pages
         CreateTableModel();
         JTableCustomer = new JTable(TableModelCustomer);
         
         JLabel searchLabel = new JLabel("Recherche:");
         JTextField searchTextField = new JTextField(15);
-
+        
+        // Configuration du des menu de la jtable
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchPanel.add(searchLabel);
         searchPanel.add(searchTextField);
@@ -169,10 +189,11 @@ public class CustomerP extends JPanel {
         
         pnlJTable.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
         
-
+        //Ajout de la JTable dans un scrollPane pour pouvoir scroller
         JScrollPane tableScrollPane = new JScrollPane(JTableCustomer);
         tableScrollPane.setPreferredSize(new Dimension(870, 500));
-
+        
+        // Configuration du header de la JTable
         JTableHeader header = JTableCustomer.getTableHeader();
         header.setForeground(Color.decode("#232323"));
         header.setFont(new Font("SansSerif", Font.BOLD, 14));
@@ -190,12 +211,13 @@ public class CustomerP extends JPanel {
         pnlJTable.add(tableScrollPane, BorderLayout.CENTER);
         
         
-        // Partie formulaire
+        // panel formulaire du haut
 
         formPanel.setLayout(new GridBagLayout());
         formPanel.setBackground(theme.BACKGROUND_PANEL);
-
+    
         GridBagConstraints formGbc = new GridBagConstraints();
+        // on place en incremantant le gridx et gridy
         formGbc.fill = GridBagConstraints.HORIZONTAL;
         
         formGbc.insets = new Insets(5, 5, 5, 5);
@@ -243,10 +265,13 @@ public class CustomerP extends JPanel {
         btnDelete.addActionListener(new ControllerDelCustomers(this));
 
         CustomerP c = this;
+
+        // Action listener pour le bouton edit qui ouvre une fenetre de modification
         btnEdit.addActionListener(new ActionListener() {
         	
             @Override
             public void actionPerformed(ActionEvent e) {
+                // on recupere la ligne selectionnée
             	int selectedRow = JTableCustomer.getSelectedRow();
             	if (selectedRow > -1) {
                 new EditCustomerDialog(c);
@@ -258,31 +283,39 @@ public class CustomerP extends JPanel {
             }
         });
         
+        // sorter pour la recherche dans la JTable
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(TableModelCustomer);
         JTableCustomer.setRowSorter(sorter);
         
+        // listener pour la recherche dans la JTable
         searchTextField.getDocument().addDocumentListener(new DocumentListener(){
+            // on filtre la JTable en fonction de la recherche
             @Override
             public void insertUpdate(DocumentEvent e) {
                 filter();
             }
-
+            // on filtre la JTable en fonction de la recherche
             @Override
             public void removeUpdate(DocumentEvent e) {
                 filter();
             }
-
+            
             @Override
             public void changedUpdate(DocumentEvent e) {
                 filter();
             }
-            
+            // methode de filtre
             public void filter(){
+                // Récupérer le texte saisi dans le champ de recherche
                 String filterStr = searchTextField.getText();
+                // Récupérer le trieur de lignes associé à la table JTableCustomer
                 TableRowSorter<DefaultTableModel> sorter = (TableRowSorter<DefaultTableModel>) JTableCustomer.getRowSorter();
                 if(filterStr.length() == 0){
+                    // Pas de text => pas de filtre, on affiche tout
                     sorter.setRowFilter(null);
                 }else{
+                    // Filtre sur toute les ligne
+                    // "(?i)" -> insensible à la case
                     sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filterStr));
                 }
             }
@@ -293,7 +326,7 @@ public class CustomerP extends JPanel {
         
 	}
 	
-	
+	 // Methode pour ajouter des clients pour tester l'affichage de la JTable et la recherche etc...
 	 public void AddCustomertest() {
 		 Customer customer1 = new Customer("Ben Ali", "Mohamed", "mohamedbenali@test.com", "1234567891");
 		 h.addCustomer(customer1);
@@ -327,7 +360,7 @@ public class CustomerP extends JPanel {
 
      }
 	
-
+    // Methode pour setup la JTable
 	public void CreateTableModel() {
 
 
@@ -352,6 +385,7 @@ public class CustomerP extends JPanel {
 	    };;
 	}
 
+    // Methode pour mettre à jour la JTable après une modification accessible par les controllers
 	public void updateTableModel() {
 		CreateTableModel();
 		JTableCustomer.setModel(TableModelCustomer);

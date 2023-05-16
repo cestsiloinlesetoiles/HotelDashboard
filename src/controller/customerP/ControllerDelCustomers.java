@@ -18,7 +18,7 @@ public class ControllerDelCustomers implements ActionListener  {
 	public void actionPerformed(ActionEvent e) {
 		int[] selectedRows = c.JTableCustomer.getSelectedRows();
 		int numRows = selectedRows.length;
-		
+		// meme principe que pour les reservations etc
 		if(numRows == 0) {
 			JOptionPane.showMessageDialog(c, "Aucune ligne sélectionnée.", "Information", JOptionPane.INFORMATION_MESSAGE);
 		} else {
